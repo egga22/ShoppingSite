@@ -1,3 +1,4 @@
+//js
 let balance = 0;
 let cart = [];
 let purchaseHistory = [];
