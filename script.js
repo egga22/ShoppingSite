@@ -202,7 +202,7 @@ function searchProducts() {
     renderProducts(filteredProducts); // Ensure this calls the correctly defined renderProducts function
 }
 function register(username, password) {
-    // Assuming you have a users collection in restdb.io
+    console.log("Hello world!");
     const url = 'https://shoppingsite-0267.restdb.io/rest/users'; // Replace <your-database-id> with your actual database ID from restdb.io
     const apiKey = '0a0a813a17b0caf1bb844cfe62467745b4a28'; // Secure your API key
 
