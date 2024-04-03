@@ -200,12 +200,29 @@ function searchProducts() {
     );
     renderProducts(filteredProducts); // Ensure this calls the correctly defined renderProducts function
 }
-function register() {
-    const username = document.getElementById('register-username').value;
-    const password = document.getElementById('register-password').value;
-    localStorage.setItem('user', JSON.stringify({ username, password }));
-    alert('Registration successful');
+function registerUser(username, password) {
+    // Assuming you have a users collection in restdb.io
+    const url = 'https://<your-database-id>.restdb.io/rest/users'; // Replace <your-database-id> with your actual database ID from restdb.io
+    const apiKey = 'YOUR_API_KEY'; // Secure your API key
+
+    const userData = {
+        username: username,
+        password: password, // In a real application, never send plain passwords like this
+    };
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-apikey': apiKey
+        },
+        body: JSON.stringify(userData)
+    })
+    .then(response => response.json())
+    .then(data => console.log('User registered:', data))
+    .catch(error => console.error('Error:', error));
 }
+
 
 function login() {
     const storedUser = JSON.parse(localStorage.getItem('user'));
