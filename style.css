@@ -1,0 +1,143 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    font-family: Arial, sans-serif;
+    width: 100%;
+    height: 100%;
+    background-color: #f9f9f9; /* Light grey background */
+}
+
+/* Layout styles for corner boxes */
+#top-left-corner, #top-right-corner, #bottom-right-corner {
+    background-color: #fff; /* White background for boxes */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Soft shadow for depth */
+    position: fixed; /* Ensure position is fixed for corners */
+    z-index: 10; /* Ensure these are above the main content */
+    display: flex;
+    flex-direction: column;
+}
+
+#cart-container {
+    position: static; /* Allow it to follow the natural document flow under redeem section */
+    margin: 20px auto; /* Center it and add some space above */
+}
+
+/* Positioning for corner boxes */
+#top-left-corner {
+    top: 10px;
+    left: 10px;
+}
+
+#top-right-corner {
+    top: 10px;
+    right: 10px;
+}
+
+#bottom-right-corner {
+    bottom: 10px;
+    right: 10px;
+}
+
+/* Flexbox centering for the main content */
+.main-content {
+    margin: 150px 20% 100px; /* Increased margin for more space around corners */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 20px;
+    position: relative; /* Needed for z-index to work */
+    z-index: 1; /* Below corner box interactive elements */
+}
+
+/* Grid layout for products */
+#product-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Adjust grid size */
+    gap: 20px;
+    width: auto; /* Allows grid to fit within adjusted margins */
+    margin: 0 auto; /* Center grid in the available space */
+    position: relative; /* Needed for z-index to work */
+    z-index: 1; /* Ensures the product list is positioned correctly */
+}
+
+/* Form styles for text input fields */
+input[type="text"], input[type="password"], input[type="search"] {
+    padding: 10px;
+    margin: 10px auto; /* Centered horizontally */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 200px; /* Keep text boxes small */
+    display: block; /* Ensure inputs are block level */
+}
+
+/* Button styles */
+button {
+    padding: 10px;
+    margin: 10px auto; /* Center buttons */
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: auto; /* Adjust width based on content */
+    max-width: 200px; /* Max width for consistency */
+    display: block; /* Ensure buttons are block level */
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Styles for the balance presets grid */
+#balance-presets {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Create a tighter grid */
+    gap: 10px; /* Maintain gap for spacing */
+    justify-content: center; /* Center grid items */
+    margin-top: 10px; /* Space above the grid */
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .main-content {
+        margin: 120px 18% 80px; /* Slightly smaller margins for tablet landscape */
+    }
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        margin: 100px 15% 60px; /* Reduced margins for tablet portrait */
+    }
+}
+
+@media (max-width: 480px) {
+    .main-content {
+        margin: 80px 10% 40px; /* Reduced margins for mobile */
+    }
+}
+
+#wishlist {
+    width: 100%; /* Ensures the wishlist takes the full width */
+    margin-top: 20px; /* Adds space between the product list and wishlist */
+    padding: 20px; /* Optional: Adds padding inside the wishlist container */
+    background-color: #f0f0f0; /* Optional: Sets a different background color */
+    border-radius: 8px; /* Optional: Rounds the corners of the wishlist container */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Adds a subtle shadow */
+}
+
+@media (max-width: 768px) {
+    #wishlist {
+        padding: 10px;
+        margin-top: 15px;
+    }
+}
