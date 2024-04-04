@@ -263,7 +263,7 @@ function login() {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'x-apikey': 'your-apikey'
+            'x-apikey': apiKey
         }
     })
     .then(response => {
