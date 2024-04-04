@@ -250,18 +250,43 @@ function register(username, password) {
 
 
 function login() {
-    const storedUser = JSON.parse(localStorage.getItem('user'));
     const username = document.getElementById('login-username').value;
     const password = document.getElementById('login-password').value;
 
-    if (storedUser && storedUser.username === username && storedUser.password === password) {
-        alert('Login successful');
-        localStorage.setItem('isLoggedIn', 'true');
-        updateLoginStatus();
-    } else {
+    // Construct the query URL
+    const query = `q={"Username": "${username}", "password": "${password}"}`;
+    const url = `https://shoppingsite-0267.restdb.io/rest/accounts?${query}`;
+
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-apikey': 'your-apikey'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data && data.length > 0) {
+            // User found
+            alert('Login successful');
+            localStorage.setItem('isLoggedIn', 'true');
+            updateLoginStatus();
+        } else {
+            // User not found
+            alert('Login failed');
+        }
+    })
+    .catch(error => {
+        console.error('Error during login:', error);
         alert('Login failed');
-    }
+    });
 }
+
 
 function logout() {
     localStorage.removeItem('isLoggedIn');
