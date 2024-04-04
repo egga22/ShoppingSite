@@ -257,6 +257,7 @@ function login() {
     // Construct the query URL
     const query = `q={"Username": "${username}", "password": "${password}"}`;
     const url = `https://shoppingsite-0267.restdb.io/rest/accounts?${query}`;
+    const apiKey = '660d8c40d34bb00dc38ed4a9'; // Remember to secure your API key
 
     fetch(url, {
         method: 'GET',
