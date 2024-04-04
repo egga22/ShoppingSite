@@ -72,7 +72,7 @@ const products = [
     { name: '$20 Arcade credits', price: 20 },
     { name: '$40 Arcade credits', price: 40 },
     { name: '$100 Arcade credits', price: 100 },
-    
+    { name: 'flowers', price: 34 },
     { name: '$5 Gift Card', price: 5, isGiftCard: true },
     { name: '$10 Gift Card', price: 10, isGiftCard: true },
     { name: '$20 Gift Card', price: 20, isGiftCard: true }
