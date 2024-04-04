@@ -328,11 +328,9 @@ function updateLoginStatus() {
 }
 
 function redeemGiftCard(code) {
-    // Query restdb.io to find the gift card by code
     const query = encodeURIComponent(`{"code":"${code}","isRedeemed":false}`);
     const url = `https://shoppingsite-0267.restdb.io/rest/gift-card-codes?q=${query}`;
-        const apiKey = '660d8c40d34bb00dc38ed4a9'; // Ensure your API key is correct
-
+    const apiKey = '660d8c40d34bb00dc38ed4a9'; // Use your actual API key
 
     fetch(url, {
         method: 'GET',
@@ -340,18 +338,25 @@ function redeemGiftCard(code) {
             'x-apikey': apiKey
         }
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) throw new Error('Failed to fetch gift card data');
+        return response.json();
+    })
     .then(data => {
-        if (data.length > 0) {
-            // Gift card found, proceed to mark it as redeemed
-            const giftCard = data[0]; // Assuming unique codes
-            updateGiftCardAsRedeemed(giftCard._id);
+        if (data.length === 0) {
+            console.error('Gift card not found or already redeemed:', code);
+            alert('Invalid or already redeemed gift card.');
         } else {
-            alert('Gift card not found or already redeemed.');
+            console.log('Gift card data for redemption:', data[0]);
+            // Proceed with redemption logic...
         }
     })
-    .catch(error => console.error('Error redeeming gift card:', error));
+    .catch(error => {
+        console.error('Error during gift card redemption:', error);
+        alert('Error redeeming gift card. Please try again.');
+    });
 }
+
 
 function updateGiftCardAsRedeemed(id) {
     fetch(`https://shoppingsite-0267.restdb.io/rest/gift-card-codes/${id}`, {
