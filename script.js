@@ -202,35 +202,46 @@ function searchProducts() {
     renderProducts(filteredProducts); // Ensure this calls the correctly defined renderProducts function
 }
 function register(username, password) {
+    // Ensure the username is unique and has not been used before
     username = String(username).trim();
     password = String(password).trim();
-    console.log("Hello world!");
-    const url = 'https://shoppingsite-0267.restdb.io/rest/accounts'; // Replace <your-database-id> with your actual database ID from restdb.io
-    const apiKey = '660d8c40d34bb00dc38ed4a9'; // Secure your API key
+
+    const url = 'https://shoppingsite-0267.restdb.io/rest/accounts';
+    const apiKey = '660d8c40d34bb00dc38ed4a9'; // Remember to secure your API key
 
     const userData = {
         "Username": username,
-        "password": password, // In a real application, never send plain passwords like this
+        "password": password
     };
 
-    fetch(url, {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-        'x-apikey': apiKey
-    },
-    body: JSON.stringify(userData)
-})
-.then(response => response.json().then(data => ({ status: response.status, body: data })))
-.then(obj => {
-    if (obj.status !== 200) {
-        throw new Error(`HTTP error! status: ${obj.status}. Message: ${obj.body.message}`);
-    }
-    console.log('User registered:', obj.body);
-})
-.catch(error => console.error('Error:', error));
+    console.log("Attempting to register:", userData); // Log the userData for debugging
 
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-apikey': apiKey
+        },
+        body: JSON.stringify(userData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.text().then(text => {
+                throw new Error(`HTTP error! Status: ${response.status}. Body: ${text}`);
+            });
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('User registered:', data);
+        // Handle successful registration
+    })
+    .catch(error => {
+        console.error('Error during registration:', error);
+        // Handle error here, possibly informing the user
+    });
 }
+
 
 
 function login() {
