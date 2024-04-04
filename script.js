@@ -201,6 +201,11 @@ function searchProducts() {
     );
     renderProducts(filteredProducts); // Ensure this calls the correctly defined renderProducts function
 }
+function attemptRegister() {
+    const username = document.getElementById('register-username').value;
+    const password = document.getElementById('register-password').value;
+    register(username, password);
+}
 function register(username, password) {
     // Ensure the username is unique and has not been used before
     username = String(username).trim();
