@@ -231,19 +231,20 @@ function register(username, password) {
     })
     .then(response => {
         if (!response.ok) {
-            return response.text().then(text => {
-                throw new Error(`HTTP error! Status: ${response.status}. Body: ${text}`);
+            return response.json().then(error => {
+                throw new Error(error.message || "Failed to register.");
             });
         }
         return response.json();
     })
     .then(data => {
         console.log('User registered:', data);
+        alert('Registration successful!');
         // Handle successful registration
     })
     .catch(error => {
         console.error('Error during registration:', error);
-        // Handle error here, possibly informing the user
+        alert(`Registration failed: ${error.message}`);
     });
 }
 
