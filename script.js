@@ -207,8 +207,8 @@ function register(username, password) {
     const apiKey = '660d8c40d34bb00dc38ed4a9'; // Secure your API key
 
     const userData = {
-        username: username,
-        password: password, // In a real application, never send plain passwords like this
+        "username": username,
+        "password": password, // In a real application, never send plain passwords like this
     };
 
     fetch(url, {
