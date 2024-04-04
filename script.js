@@ -212,21 +212,22 @@ function register(username, password) {
     };
 
     fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'x-apikey': apiKey
-        },
-        body: JSON.stringify(userData)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-    })
-    .then(data => console.log('User registered:', data))
-    .catch(error => console.error('Error:', error));
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'x-apikey': apiKey
+    },
+    body: JSON.stringify(userData)
+})
+.then(response => response.json().then(data => ({ status: response.status, body: data })))
+.then(obj => {
+    if (obj.status !== 200) {
+        throw new Error(`HTTP error! status: ${obj.status}. Message: ${obj.body.message}`);
+    }
+    console.log('User registered:', obj.body);
+})
+.catch(error => console.error('Error:', error));
+
 }
 
 
