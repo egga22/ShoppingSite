@@ -14,9 +14,28 @@ let giftCardCodes = {}; // Stores codes and their values
 
 function generateGiftCardCode(value) {
     const code = 'GC' + Math.random().toString(36).substr(2, 9).toUpperCase();
-    giftCardCodes[code] = value;
-    return code; // Return the code for use in the checkout function
+    const giftCardData = {
+        code: code,
+        value: value,
+        isRedeemed: false
+    };
+
+    // Use fetch to POST giftCardData to your restdb.io gift card collection
+    fetch('https://shoppingsite-0267.restdb.io/rest/gift-card-codes, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-apikey': 'your-restdb-apikey'
+        },
+        body: JSON.stringify(giftCardData)
+    })
+    .then(response => response.json())
+    .then(data => console.log('Gift card generated:', data))
+    .catch(error => console.error('Error generating gift card:', error));
+
+    return code; // Might want to adjust handling based on async nature of POST
 }
+
 
 
 function addToCart(productName, price, isGiftCard = false) {
@@ -307,18 +326,49 @@ function updateLoginStatus() {
     }
 }
 
-function redeemGiftCard() {
-    const code = document.getElementById('gift-card-code').value;
-    if (giftCardCodes[code]) {
-        balance += giftCardCodes[code];
-        alert(`$${giftCardCodes[code]} added to your balance.`);
-        delete giftCardCodes[code]; // Ensure the code can't be used again
-        updateBalanceDisplay();
-        document.getElementById('gift-card-code').value = ''; // Clear input
-    } else {
-        alert('Invalid or already used gift card code.');
-    }
+function redeemGiftCard(code) {
+    // Query restdb.io to find the gift card by code
+    const query = encodeURIComponent(`{"code":"${code}","isRedeemed":false}`);
+    const url = `https://shoppingsite-0267.restdb.io/rest/gift-card-codes?q=${query}`;
+        const apiKey = '660d8c40d34bb00dc38ed4a9'; // Ensure your API key is correct
+
+
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'x-apikey': apiKey
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.length > 0) {
+            // Gift card found, proceed to mark it as redeemed
+            const giftCard = data[0]; // Assuming unique codes
+            updateGiftCardAsRedeemed(giftCard._id);
+        } else {
+            alert('Gift card not found or already redeemed.');
+        }
+    })
+    .catch(error => console.error('Error redeeming gift card:', error));
 }
+
+function updateGiftCardAsRedeemed(id) {
+    fetch(`https://shoppingsite-0267.restdb.io/rest/gift-card-codes/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-apikey': 'your-restdb-apikey'
+        },
+        body: JSON.stringify({ isRedeemed: true })
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert('Gift card redeemed successfully.');
+        // Update UI or user balance as needed
+    })
+    .catch(error => console.error('Error updating gift card status:', error));
+}
+
 
 function renderWishlist() {
     const wishlistItemsEl = document.getElementById('wishlist-items');
