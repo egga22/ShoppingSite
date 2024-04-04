@@ -21,7 +21,7 @@ function generateGiftCardCode(value) {
     };
 
     // Use fetch to POST giftCardData to your restdb.io gift card collection
-    fetch('https://shoppingsite-0267.restdb.io/rest/gift-card-codes, {
+    fetch('https://shoppingsite-0267.restdb.io/rest/gift-card-codes', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
