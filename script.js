@@ -14,18 +14,19 @@ let giftCardCodes = {}; // Stores codes and their values
 
 function generateGiftCardCode(value) {
     const code = 'GC' + Math.random().toString(36).substr(2, 9).toUpperCase();
+    const apiKey = '660d8c40d34bb00dc38ed4a9'; // Remember to secure your API key
     const giftCardData = {
         code: code,
         value: value,
         isRedeemed: false
     };
-
+    
     // Use fetch to POST giftCardData to your restdb.io gift card collection
     fetch('https://shoppingsite-0267.restdb.io/rest/gift-card-codes', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'x-apikey': 'your-restdb-apikey'
+            'x-apikey': apiKey
         },
         body: JSON.stringify(giftCardData)
     })
