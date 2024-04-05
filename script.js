@@ -350,7 +350,7 @@ function redeemGiftCard(code) {
             console.log('Gift card data for redemption:', data[0]);
             balance += data[0].value; // Update the balance
             updateBalanceDisplay(); // Refresh the displayed balance
-
+            const value = data[0].value;
             // Mark the gift card as redeemed using the _id from the fetched data
             return fetch(`https://shoppingsite-0267.restdb.io/rest/gift-card-codes/${data[0]._id}`, {
                 method: 'PUT',
