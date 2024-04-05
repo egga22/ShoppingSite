@@ -1,4 +1,34 @@
 //js
+const products = [
+    { name: 'Video Game', price: 60 },
+    { name: 'Gaming Console', price: 500 },
+    { name: 'Ice Cream', price: 12 },
+    { name: 'Movie Ticket', price: 14 },
+    { name: 'Pair of Pants', price: 40 },
+    { name: 'Nerf Gun', price: 25 },
+    { name: 'Pokemon Card Pack', price: 15 },
+    { name: 'Anime Convention Ticket', price: 150 },
+    { name: 'Fancy Pencil Set', price: 25 },
+    { name: 'Movie Ticket 3 Pack', price: 40 },
+    { name: 'High End Skateboard', price: 100 },
+    { name: '$5 Roblox Gift Card', price: 5 },
+    { name: '$10 Roblox Gift Card', price: 10 },
+    { name: '$20 Roblox Gift Card', price: 20 },
+    { name: 'Nike Shoes', price: 120 },
+    { name: 'Lego Set', price: 80 },
+    { name: 'Poster', price: 20 },
+    { name: 'Music Album', price: 10 },
+    { name: '3 Pizzas', price: 40 },
+    { name: 'Anime Tee Shirt', price: 70 },
+    { name: '$10 Arcade credits', price: 10 },
+    { name: '$20 Arcade credits', price: 20 },
+    { name: '$40 Arcade credits', price: 40 },
+    { name: '$100 Arcade credits', price: 100 },
+    { name: 'flowers', price: 34 },
+    { name: '$5 Gift Card', price: 5, isGiftCard: true },
+    { name: '$10 Gift Card', price: 10, isGiftCard: true },
+    { name: '$20 Gift Card', price: 20, isGiftCard: true }
+]
 let balance = 0;
 let cart = [];
 let purchaseHistory = [];
