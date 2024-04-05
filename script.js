@@ -37,13 +37,53 @@ function generateGiftCardCode(value) {
     return code; // Might want to adjust handling based on async nature of POST
 }
 
-
+function updateCartInDatabase(userId, newCart) {
+    const url = `https://shoppingsite-0267.restdb.io/rest/accounts/${userId}`;
+    const apiKey = 'your-api-key'; // Replace with your actual API key
+    fetch(url, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-apikey': apiKey
+        },
+        body: JSON.stringify({ cart: newCart })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Cart updated on server:', data);
+    })
+    .catch(error => console.error('Error updating Cart:', error));
+}
 
 function addToCart(productName, price, isGiftCard = false) {
     cart.push({productName, price, isGiftCard});
+    updateCartInDatabase(localStorage.getItem('userId'), cart); // Update cart in database
     renderCartItems();
 }
 
+function updatePurchaseHistoryInDatabase(userId, newPurchaseHistory) {
+    const url = `https://shoppingsite-0267.restdb.io/rest/accounts/${userId}`;
+    const apiKey = 'your-api-key'; // Replace with your actual API key
+
+    fetch(url, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-apikey': apiKey
+        },
+        body: JSON.stringify({ purchaseHistory: newPurchaseHistory })
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.json();
+    })
+    .then(data => {
+        console.log('Purchase history updated on server:', data);
+    })
+    .catch(error => {
+        console.error('Error updating purchase history:', error);
+    });
+}
 
 
 const products = [
@@ -139,6 +179,10 @@ function checkout() {
     discountApplied = false;
     appliedDiscountPercentage = 0;
     document.getElementById('discount-code').value = ''; // Clear the discount code field
+    const userId = localStorage.getItem('userId');
+    updateBalanceInDatabase(userId, balance); // Update balance in database
+    updateCartInDatabase(userId, []); // Clear the cart in database
+    updatePurchaseHistoryInDatabase(userId, purchaseHistory); // Update purchase history in database
 }
 function addBalance() {
     const amount = prompt('How much would you like to add?');
@@ -208,11 +252,29 @@ function renderProducts(productArray) {
 }
 
 
-// Existing JavaScript code
+function updateBalanceInDatabase(userId, newBalance) {
+    // Update the balance on the server
+    const url = `https://shoppingsite-0267.restdb.io/rest/accounts/${userId}`;
+    const apiKey = 'your-api-key'; // Replace with your actual API key
+    fetch(url, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-apikey': apiKey
+        },
+        body: JSON.stringify({ balance: newBalance })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Balance updated on server:', data);
+    })
+    .catch(error => console.error('Error updating balance:', error));
+}
 
 function updateBalance(amount) {
     balance += amount;
     updateBalanceDisplay();
+    updateBalanceInDatabase(localStorage.getItem('userId'), balance); // Update balance in database
 }
 function searchProducts() {
     const searchValue = document.getElementById('search-input').value.toLowerCase();
