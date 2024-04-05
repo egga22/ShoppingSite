@@ -348,9 +348,9 @@ function redeemGiftCard(code) {
             alert('Invalid or already redeemed gift card.');
         } else {
             console.log('Gift card data for redemption:', data[0]);
-            balance += data[0].value; // Update the balance
+            const value = data[0].value; // Define the value variable here
+            balance += value; // Use the defined value variable
             updateBalanceDisplay(); // Refresh the displayed balance
-            const value = data[0].value;
             // Mark the gift card as redeemed using the _id from the fetched data
             return fetch(`https://shoppingsite-0267.restdb.io/rest/gift-card-codes/${data[0]._id}`, {
                 method: 'PUT',
@@ -359,13 +359,14 @@ function redeemGiftCard(code) {
                     'x-apikey': apiKey
                 },
                 body: JSON.stringify({
-                    "code": code, // the original code of the gift card
-                    "value": value, // the monetary value of the gift card
+                    "code": data[0].code, // Assuming you want to reaffirm the code, though this might be optional depending on your backend requirements.
+                    "value": value, // Use the value variable here
                     "isRedeemed": true
-                  })
-                  
+                })
             });
         }
+    })
+    
     })
     .then(updateResponse => {
         if (!updateResponse.ok) throw new Error('Failed to mark gift card as redeemed');
