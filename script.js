@@ -296,6 +296,7 @@ function login() {
             alert('Login successful');
             localStorage.setItem('isLoggedIn', 'true');
             updateLoginStatus();
+            fetchUserData(username);
         } else {
             // User not found
             alert('Login failed');
@@ -418,6 +419,72 @@ function updateGiftCardAsRedeemed(id, code, value) {
         console.error('Error marking gift card as redeemed:', error);
         alert('Failed to mark gift card as redeemed. Please try again.');
     });
+}
+function updateBalanceOnServer(newBalance) {
+    const url = 'https://shoppingsite-0267.restdb.io/rest/userdata'; // Hypothetical URL
+    const apiKey = '660d8c40d34bb00dc38ed4a9'; // Your actual API key
+
+    // Assuming the user's data is stored under a unique userID
+    const userId = localStorage.getItem('userId'); // Ensure you set this upon login
+
+    fetch(`${url}/${userId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-apikey': apiKey
+        },
+        body: JSON.stringify({ balance: newBalance })
+    })
+    .then(response => response.json())
+    .then(data => console.log('Balance updated:', data))
+    .catch(error => console.error('Error updating balance:', error));
+}
+function fetchUserData(username) {
+    const query = encodeURIComponent(`{"Username":"${username}"}`);
+    const url = `https://shoppingsite-0267.restdb.io/rest/accounts?q=${query}`;
+    const apiKey = '660d8c40d34bb00dc38ed4a9';
+
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'x-apikey': apiKey
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data && data.length > 0) {
+            const user = data[0];
+            balance = user.balance; // Set the global balance variable
+            cart = user.cart; // Set the global cart array
+            // Similarly set wishlist and purchaseHistory
+            updateBalanceDisplay(); // Update the UI with the fetched balance
+            renderCartItems(); // And cart items
+            // Do the same for wishlist and purchase history
+        } else {
+            console.error('User data not found.');
+        }
+    })
+    .catch(error => console.error('Error fetching user data:', error));
+}
+
+function updateUserData(userId, dataToUpdate) {
+    const url = `https://shoppingsite-0267.restdb.io/rest/accounts/${userId}`;
+    const apiKey = '660d8c40d34bb00dc38ed4a9';
+
+    fetch(url, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-apikey': apiKey
+        },
+        body: JSON.stringify(dataToUpdate)
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        console.log('User data updated successfully');
+        // Update the UI if necessary
+    })
+    .catch(error => console.error('Error updating user data:', error));
 }
 
 
