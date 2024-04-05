@@ -25,16 +25,18 @@ body, html {
 }
 
 #cart-container {
-    z-index: 2; /* Lower than the top-right corner to avoid overlap */
-    margin-top: 20px; /* Adjust the space between the cart and the sections above */
-    width: calc(100% - 40px); /* Assuming the cart should be the same width as the top-right corner */
-    left: 10px; /* Align left with the top-left corner */
-    right: 10px; /* Align right with the top-right corner */
-    background-color: #fff; /* Assuming you want the cart background to be white */
-    padding: 20px; /* Add padding for visual spacing inside the cart */
-    border-radius: 10px; /* To match the style of the corner boxes */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Soft shadow for depth */
-    box-sizing: border-box; /* To include padding in the width calculation */
+    position: absolute; /* Use absolute positioning to place it halfway down */
+    top: 50%; /* This places the top edge of the cart-container halfway down the page */
+    left: 10px; /* Maintain alignment with the left side */
+    transform: translateY(-50%); /* Adjust the cart-container to be centered at the halfway point */
+    width: 100%; /* Full width if it should stretch across the entire available space */
+    max-width: 300px; /* Or set a max-width to match other containers */
+    background-color: #fff; /* White background for the cart */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    z-index: 2; /* Keep it above the main content but below the top elements */
+    box-sizing: border-box; /* Include padding and border in the width and height */
 }
 /* Positioning for corner boxes */
 #top-left-corner {
