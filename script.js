@@ -327,59 +327,40 @@ function updateLoginStatus() {
     }
 }
 
-function redeemGiftCard(code) {
-    // Correct usage of encodeURIComponent to form the query
-    const query = encodeURIComponent(`{"code":"${code}","isRedeemed":false}`);
-    const url = `https://shoppingsite-0267.restdb.io/rest/gift-card-codes?q=${query}`;
+function updateGiftCardAsRedeemed(id, code, value) {
+    const url = `https://shoppingsite-0267.restdb.io/rest/gift-card-codes/${id}`;
     const apiKey = '660d8c40d34bb00dc38ed4a9'; // Ensure this is your actual, correct API key
+    const bodyData = {
+        "code": code, // Re-supply the existing code
+        "value": value, // Re-supply the existing value
+        "isRedeemed": true // Update the isRedeemed status
+    };
 
     fetch(url, {
-        method: 'GET',
+        method: 'PUT',
         headers: {
+            'Content-Type': 'application/json',
             'x-apikey': apiKey
-        }
+        },
+        body: JSON.stringify(bodyData)
     })
     .then(response => {
-        if (!response.ok) throw new Error('Failed to fetch gift card data');
+        if (!response.ok) {
+            throw new Error('Failed to mark gift card as redeemed');
+        }
         return response.json();
     })
-    .then(data => {
-    if (data.length === 0) {
-        console.error('Gift card not found or already redeemed:', code);
-        alert('Invalid or already redeemed gift card.');
-    } else {
-        balance += data[0].value; // Add the gift card value to the current balance
-        updateBalanceDisplay(); // Update the UI
-
-        // Proceed to mark the gift card as redeemed
-        return fetch(`https://shoppingsite-0267.restdb.io/rest/gift-card-codes/${data[0]._id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'x-apikey': apiKey
-            },
-            body: JSON.stringify({ "isRedeemed": true })
-        });
-    }
-})
-.then(response => {
-    if (!response.ok) {
-        // Log the response to diagnose the issue
-        console.log(response);
-        throw new Error('Failed to mark gift card as redeemed');
-    }
-    return response.json();
-})
-.then(updatedData => {
-    console.log('Gift card redeemed successfully:', updatedData);
-    alert('Gift card redeemed successfully!');
-})
-.catch(error => {
-    console.error('Error during the gift card redemption process:', error);
-    alert('Error redeeming gift card. Please try again.');
-});
-
+    .then(updatedData => {
+        console.log('Gift card redeemed successfully:', updatedData);
+        alert('Gift card redeemed successfully!');
+        // Here, you might want to update the UI or perform additional actions
+    })
+    .catch(error => {
+        console.error('Error marking gift card as redeemed:', error);
+        alert('Failed to mark gift card as redeemed. Please try again.');
+    });
 }
+
 
 // Ensure this function is implemented to reflect the updated balance in the UI
 function updateBalanceDisplay() {
