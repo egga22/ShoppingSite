@@ -341,6 +341,7 @@ function fetchUserData(username) {
     .catch(error => {
         console.error('Error fetching user data:', error);
     });
+    renderProducts(products); // Add this line to render products after fetching user data
 }
 
 function removeFromCart(index) {
