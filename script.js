@@ -338,38 +338,44 @@ function redeemGiftCard(code) {
             'x-apikey': apiKey
         }
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.length === 0) {
-            alert('Invalid or already redeemed gift card.');
-        } else {
-            const giftCard = data[0];
-            balance += giftCard.value; // Add the gift card value to the balance
-            updateBalanceDisplay(); // Update the displayed balance
-
-            // Mark the gift card as redeemed
-            return fetch(`https://shoppingsite-0267.restdb.io/rest/gift-card-codes/${giftCard._id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-apikey': apiKey
-                },
-                body: JSON.stringify({ "isRedeemed": true })
-            });
-        }
-    })
     .then(response => {
-        if (!response.ok) throw new Error('Failed to mark gift card as redeemed');
+        if (!response.ok) throw new Error('Failed to fetch gift card data');
         return response.json();
     })
-    .then(() => {
-        alert('Gift card redeemed successfully!');
+    .then(data => {
+        if (data.length === 0) {
+            console.error('Gift card not found or already redeemed:', code);
+            alert('Invalid or already redeemed gift card.');
+        } else {
+            console.log('Gift card data for redemption:', data[0]);
+            balance += data[0].value; // Assuming 'value' is the field for the gift card amount
+            updateBalanceDisplay(); // Refresh the displayed balance
+
+            // Mark the gift card as redeemed
+            fetch(`https://shoppingsite-0267.restdb.io/rest/gift-card-codes/${giftCard._id}`, {
+    method: 'PUT',
+    headers: {
+        'Content-Type': 'application/json',
+        'x-apikey': 'YOUR_API_KEY_HERE'
+    },
+    body: JSON.stringify({
+        "isRedeemed": true
     })
-    .catch(error => {
-        console.error('Error during gift card redemption:', error);
-        alert('Error redeeming gift card. Please try again.');
-    });
-}
+})
+.then(response => {
+    if (!response.ok) {
+        throw new Error('Failed to update gift card status');
+    }
+    return response.json();
+})
+.then(updatedData => {
+    console.log('Gift card status updated:', updatedData);
+    // Proceed with updating the UI or further logic here
+})
+.catch(error => {
+    console.error('Error updating gift card status:', error);
+    // Handle error appropriately here
+});
 
 
 
