@@ -358,7 +358,12 @@ function redeemGiftCard(code) {
                     'Content-Type': 'application/json',
                     'x-apikey': apiKey
                 },
-                body: JSON.stringify({ "isRedeemed": true })
+                body: JSON.stringify({
+                    "code": code, // the original code of the gift card
+                    "value": value, // the monetary value of the gift card
+                    "isRedeemed": true
+                  })
+                  
             });
         }
     })
