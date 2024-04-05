@@ -366,8 +366,6 @@ function redeemGiftCard(code) {
             });
         }
     })
-    
-    })
     .then(updateResponse => {
         if (!updateResponse.ok) throw new Error('Failed to mark gift card as redeemed');
         return updateResponse.json();
@@ -375,13 +373,13 @@ function redeemGiftCard(code) {
     .then(updateData => {
         console.log('Gift card redeemed successfully:', updateData);
         alert('Gift card redeemed successfully!');
-        // The UI update is already handled above
     })
     .catch(error => {
         console.error('Error during the gift card redemption process:', error);
         alert('Error redeeming gift card. Please try again.');
     });
 }
+
 
 
 
