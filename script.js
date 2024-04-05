@@ -389,10 +389,15 @@ function redeemGiftCard(code) {
 function updateGiftCardAsRedeemed(id, code, value) {
     const url = `https://shoppingsite-0267.restdb.io/rest/gift-card-codes/${id}`;
     const apiKey = '660d8c40d34bb00dc38ed4a9'; // Ensure this is your actual, correct API key
+
+    // Assuming you have a way to get the username of the logged-in user
+    const loggedInUsername = getLoggedInUsername(); // You need to implement this function
+
     const bodyData = {
         "code": code, // Re-supply the existing code
         "value": value, // Re-supply the existing value
-        "isRedeemed": true // Update the isRedeemed status
+        "isRedeemed": true, // Update the isRedeemed status
+        "redeemedBy": loggedInUsername // Set the redeemedBy field to the username of the logged-in user
     };
 
     fetch(url, {
@@ -419,6 +424,19 @@ function updateGiftCardAsRedeemed(id, code, value) {
         alert('Failed to mark gift card as redeemed. Please try again.');
     });
 }
+function getLoggedInUsername() {
+    // Retrieve the username from localStorage if the user is logged in
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    if (isLoggedIn) {
+        // If the user is logged in, retrieve and return the username from localStorage
+        const username = localStorage.getItem('username');
+        return username;
+    } else {
+        // If the user is not logged in, return null or handle the situation accordingly
+        return null;
+    }
+}
+
 
 
 
