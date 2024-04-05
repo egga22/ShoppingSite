@@ -25,10 +25,18 @@ body, html {
 }
 
 #cart-container {
-    position: static; /* Allow it to follow the natural document flow under redeem section */
-    margin: 20px auto; /* Center it and add some space above */
+    position: relative; /* Adjust to make it follow the document flow */
+    z-index: 5; /* Lower than the top-right corner to avoid overlap */
+    margin-top: 20px; /* Adjust the space between the cart and the sections above */
+    width: calc(100% - 40px); /* Assuming the cart should be the same width as the top-right corner */
+    left: 10px; /* Align left with the top-left corner */
+    right: 10px; /* Align right with the top-right corner */
+    background-color: #fff; /* Assuming you want the cart background to be white */
+    padding: 20px; /* Add padding for visual spacing inside the cart */
+    border-radius: 10px; /* To match the style of the corner boxes */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Soft shadow for depth */
+    box-sizing: border-box; /* To include padding in the width calculation */
 }
-
 /* Positioning for corner boxes */
 #top-left-corner {
     top: 10px;
@@ -38,6 +46,8 @@ body, html {
 #top-right-corner {
     top: 10px;
     right: 10px;
+    display: flex;
+    flex-direction: column;
 }
 
 #bottom-right-corner {
