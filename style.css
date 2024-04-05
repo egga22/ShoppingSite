@@ -25,18 +25,18 @@ body, html {
 }
 
 #cart-container {
-    position: absolute; /* Use absolute positioning to place it halfway down */
-    top: 50%; /* This places the top edge of the cart-container halfway down the page */
-    left: 10px; /* Maintain alignment with the left side */
-    transform: translateY(-50%); /* Adjust the cart-container to be centered at the halfway point */
-    width: 100%; /* Full width if it should stretch across the entire available space */
-    max-width: 300px; /* Or set a max-width to match other containers */
+    position: absolute; /* Positioned relative to the nearest positioned ancestor instead of the viewport */
+    top: 50%; /* This will position the top of the cart container at the center of the page */
+    transform: translateY(-50%); /* This will offset the cart container by half its own height, centering it vertically */
+    left: 10px; /* Align with the left edge of the content area */
+    width: calc(100% - 20px); /* Assuming full width minus the left and right padding/margins */
+    max-width: 300px; /* Or set a max-width if needed to match other elements' width */
     background-color: #fff; /* White background for the cart */
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    z-index: 2; /* Keep it above the main content but below the top elements */
-    box-sizing: border-box; /* Include padding and border in the width and height */
+    z-index: 2; /* Above the main content, under top-left-corner elements */
+    box-sizing: border-box; /* Include padding and border in the width */
 }
 /* Positioning for corner boxes */
 #top-left-corner {
@@ -44,6 +44,7 @@ body, html {
     left: 10px;
     display: flex;
     flex-direction: column;
+    z-index: 3;
 }
 
 #top-right-corner {
