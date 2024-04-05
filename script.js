@@ -454,17 +454,24 @@ function fetchUserData(username) {
     .then(data => {
         if (data && data.length > 0) {
             const user = data[0];
-            balance = user.balance; // Set the global balance variable
-            cart = user.cart; // Set the global cart array
-            // Similarly set wishlist and purchaseHistory
+            balance = user.balance || 0;; // Set the global balance variable
+            cart = user.cart || []; // Set the global cart array
+            purchaseHistory = user.purchaseHistory || [];
             updateBalanceDisplay(); // Update the UI with the fetched balance
             renderCartItems(); // And cart items
             // Do the same for wishlist and purchase history
         } else {
             console.error('User data not found.');
+            cart = []; // Default to an empty array if user data not found
+            purchaseHistory = []; // Default to an empty array if user data not found
+
         }
     })
-    .catch(error => console.error('Error fetching user data:', error));
+    .catch(error =>{
+        console.error('Error fetching user data:', error);
+        cart = []; // Default to an empty array if there's an error fetching data
+        purchaseHistory = [];
+    });
 }
 
 function updateUserData(userId, dataToUpdate) {
