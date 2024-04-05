@@ -382,21 +382,36 @@ function redeemGiftCard(code) {
 
 
 
-function updateGiftCardAsRedeemed(id) {
-    fetch(`https://shoppingsite-0267.restdb.io/rest/gift-card-codes/${id}`, {
+function updateGiftCardAsRedeemed(id, value) { // Added value parameter if needed
+    const apiKey = '660d8c40d34bb00dc38ed4a9'; // Use your actual API key
+    const url = `https://shoppingsite-0267.restdb.io/rest/gift-card-codes/${id}`;
+
+    fetch(url, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
-            'x-apikey': 'your-restdb-apikey'
+            'x-apikey': apiKey
         },
-        body: JSON.stringify({ isRedeemed: true })
+        body: JSON.stringify({
+            "isRedeemed": true, // Make sure the field name matches your schema
+            // "value": value, // Uncomment if value is required for updates
+        })
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to update gift card status');
+        }
+        return response.json();
+    })
     .then(data => {
-        alert('Gift card redeemed successfully.');
-        // Update UI or user balance as needed
+        console.log('Gift card redeemed successfully:', data);
+        alert('Gift card redeemed successfully!');
+        // Update the balance display here if necessary
     })
-    .catch(error => console.error('Error updating gift card status:', error));
+    .catch(error => {
+        console.error('Error marking gift card as redeemed:', error);
+        alert('Failed to mark gift card as redeemed. Please try again.');
+    });
 }
 
 
