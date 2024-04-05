@@ -297,12 +297,18 @@ function logout() {
 
 function updateLoginStatus() {
     const isLoggedIn = localStorage.getItem('isLoggedIn');
+    const loginSection = document.getElementById('login');
+    const registerSection = document.getElementById('register');
+    const logoutSection = document.getElementById('logout-section');
+    
     if (isLoggedIn) {
-        document.getElementById('login-section').style.display = 'none';
-        document.getElementById('logout-section').style.display = 'block';
+        if (loginSection) loginSection.style.display = 'none';
+        if (registerSection) registerSection.style.display = 'none';
+        if (logoutSection) logoutSection.style.display = 'block';
     } else {
-        document.getElementById('login-section').style.display = 'block';
-        document.getElementById('logout-section').style.display = 'none';
+        if (loginSection) loginSection.style.display = 'block';
+        if (registerSection) registerSection.style.display = 'block';
+        if (logoutSection) logoutSection.style.display = 'none';
     }
 }
 
@@ -324,6 +330,7 @@ function fetchUserData(username) {
             balance = user.balance || 0;
             cart = user.cart || [];
             purchaseHistory = user.purchaseHistory || [];
+            localStorage.setItem('userId', user._id); // Store user ID for future operati
             updateBalanceDisplay();
             renderCartItems();
             renderPurchaseHistory();
@@ -331,7 +338,9 @@ function fetchUserData(username) {
             console.error('User data not found');
         }
     })
-    .catch(error => console.error('Error fetching user data:', error));
+    .catch(error => {
+        console.error('Error fetching user data:', error);
+    });
 }
 
 function removeFromCart(index) {
