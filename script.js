@@ -330,7 +330,7 @@ function updateLoginStatus() {
 function redeemGiftCard(code) {
     const query = encodeURIComponent(`{"code":"${code}","isRedeemed":false}`);
     const url = `https://shoppingsite-0267.restdb.io/rest/gift-card-codes?q=${query}`;
-    const apiKey = '660d8c40d34bb00dc38ed4a9'; // Use your actual API key
+    const apiKey = '660d8c40d34bb00dc38ed4a9'; // Replace with your actual API key
 
     fetch(url, {
         method: 'GET',
@@ -348,41 +348,35 @@ function redeemGiftCard(code) {
             alert('Invalid or already redeemed gift card.');
         } else {
             console.log('Gift card data for redemption:', data[0]);
-            balance += data[0].value; // Assuming 'value' is the field for the gift card amount
+            balance += data[0].value; // Update the balance
             updateBalanceDisplay(); // Refresh the displayed balance
 
-            // Correctly use the fetched gift card data to mark as redeemed
-            fetch(`https://shoppingsite-0267.restdb.io/rest/gift-card-codes/${data[0]._id}`, { // Use the correct _id from the fetched data
+            // Mark the gift card as redeemed using the _id from the fetched data
+            return fetch(`https://shoppingsite-0267.restdb.io/rest/gift-card-codes/${data[0]._id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'x-apikey': apiKey // Use the apiKey variable defined at the start
+                    'x-apikey': apiKey
                 },
-                body: JSON.stringify({
-                    "isRedeemed": true
-                })
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to update gift card status');
-                }
-                return response.json();
-            })
-            .then(updatedData => {
-                console.log('Gift card status updated:', updatedData);
-                // Proceed with updating the UI or further logic here
-            })
-            .catch(error => {
-                console.error('Error updating gift card status:', error);
-                // Handle error appropriately here
+                body: JSON.stringify({ "isRedeemed": true })
             });
         }
     })
+    .then(updateResponse => {
+        if (!updateResponse.ok) throw new Error('Failed to mark gift card as redeemed');
+        return updateResponse.json();
+    })
+    .then(updateData => {
+        console.log('Gift card redeemed successfully:', updateData);
+        alert('Gift card redeemed successfully!');
+        // The UI update is already handled above
+    })
     .catch(error => {
-        console.error('Error during gift card redemption:', error);
-        alert('Error during gift card redemption. Please try again.');
+        console.error('Error during the gift card redemption process:', error);
+        alert('Error redeeming gift card. Please try again.');
     });
 }
+
 
 
 
