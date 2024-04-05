@@ -344,39 +344,41 @@ function redeemGiftCard(code) {
         return response.json();
     })
     .then(data => {
-        if (data.length === 0) {
-            console.error('Gift card not found or already redeemed:', code);
-            alert('Invalid or already redeemed gift card.');
-        } else {
-            // Assuming 'value' correctly holds the numeric value of the gift card
-            balance += data[0].value; // Add the gift card value to the current balance
-            updateBalanceDisplay(); // Make sure this function correctly updates the UI with the new balance
+    if (data.length === 0) {
+        console.error('Gift card not found or already redeemed:', code);
+        alert('Invalid or already redeemed gift card.');
+    } else {
+        balance += data[0].value; // Add the gift card value to the current balance
+        updateBalanceDisplay(); // Update the UI
 
-            // Proceed to mark the gift card as redeemed
-            return fetch(`https://shoppingsite-0267.restdb.io/rest/gift-card-codes/${data[0]._id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-apikey': apiKey
-                },
-                body: JSON.stringify({ "isRedeemed": true })
-            });
-        }
-    })
-    .then(response => {
-        if (response && response.ok) {
-            return response.json();
-        }
+        // Proceed to mark the gift card as redeemed
+        return fetch(`https://shoppingsite-0267.restdb.io/rest/gift-card-codes/${data[0]._id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-apikey': apiKey
+            },
+            body: JSON.stringify({ "isRedeemed": true })
+        });
+    }
+})
+.then(response => {
+    if (!response.ok) {
+        // Log the response to diagnose the issue
+        console.log(response);
         throw new Error('Failed to mark gift card as redeemed');
-    })
-    .then(updatedData => {
-        console.log('Gift card redeemed successfully:', updatedData);
-        alert('Gift card redeemed successfully!');
-    })
-    .catch(error => {
-        console.error('Error during the gift card redemption process:', error);
-        alert('Error redeeming gift card. Please try again.');
-    });
+    }
+    return response.json();
+})
+.then(updatedData => {
+    console.log('Gift card redeemed successfully:', updatedData);
+    alert('Gift card redeemed successfully!');
+})
+.catch(error => {
+    console.error('Error during the gift card redemption process:', error);
+    alert('Error redeeming gift card. Please try again.');
+});
+
 }
 
 // Ensure this function is implemented to reflect the updated balance in the UI
