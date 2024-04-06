@@ -413,17 +413,8 @@ function updateGiftCardAsRedeemed(id, code, value) {
         console.error('Error marking gift card as redeemed:', error);
         alert('Failed to mark gift card as redeemed. Please try again.');
     });
-    console.log('Sending update request with data:', JSON.stringify(bodyData));
-
-
-
-
-
-
-
-
-
-
+    console.log('Sending update request with data:', JSON.stringify(bodyData))
+}
 
 function renderWishlist() {
     const wishlistItemsEl = document.getElementById('wishlist-items');
