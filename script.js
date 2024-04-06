@@ -386,14 +386,15 @@ function updateGiftCardAsRedeemed(id, code, value) {
     const apiKey = '660d8c40d34bb00dc38ed4a9'; // Ensure this is your actual, correct API key
 
     // Retrieve the username of the currently logged-in user from localStorage
-    // Adjust this line if the username is stored/retrieved differently
     const loggedInUser = localStorage.getItem('loggedInUser');
 
+    console.log(`Attempting to redeem for user: ${loggedInUser}`); // Debugging line
+
     const bodyData = {
-        "code": code, // Re-supply the existing code
-        "value": value, // Re-supply the existing value
-        "isRedeemed": true, // Update the isRedeemed status
-        "redeemedBy": loggedInUser // Add the username of the logged-in user
+        "code": code,
+        "value": value,
+        "isRedeemed": true,
+        "redeemedBy": loggedInUser // Make sure this field name matches your database schema
     };
 
     fetch(url, {
@@ -406,20 +407,20 @@ function updateGiftCardAsRedeemed(id, code, value) {
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error('Failed to mark gift card as redeemed');
+            return response.text().then(text => { throw new Error(text) });
         }
         return response.json();
     })
     .then(updatedData => {
         console.log('Gift card redeemed successfully:', updatedData);
         alert('Gift card redeemed successfully!');
-        // Here, you might want to update the UI or perform additional actions
     })
     .catch(error => {
         console.error('Error marking gift card as redeemed:', error);
         alert('Failed to mark gift card as redeemed. Please try again.');
     });
 }
+
 
 
 
