@@ -295,7 +295,7 @@ function login() {
             // User found
             alert('Login successful');
             localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('username', username); // Save the logged-in username
+            localStorage.setItem('username', username); // Store the username in localStorage
             updateLoginStatus();
         } else {
             // User not found
@@ -382,26 +382,20 @@ function redeemGiftCard(code) {
 }
 
 
-
-
-
-
-
 function updateGiftCardAsRedeemed(id, code, value) {
-    console.log("updateGiftCardAsRedeemed function called with id:", id); // Log when function is called
-
     const url = `https://shoppingsite-0267.restdb.io/rest/gift-card-codes/${id}`;
-    const apiKey = '660d8c40d34bb00dc38ed4a9';
-    const redeemedByUsername = localStorage.getItem('username'); 
-    console.log("Redeemed by username:", redeemedByUsername); // Check the username being retrieved
+    const apiKey = '660d8c40d34bb00dc38ed4a9'; // Ensure this is your actual, correct API key
+
+    // Retrieve the username of the currently logged-in user from localStorage
+    // Adjust this line if the username is stored/retrieved differently
+    const redeemedByUsername = localStorage.getItem('username');
 
     const bodyData = {
-        "code": code,
-        "value": value,
-        "isRedeemed": true,
-        "redeemedBy": redeemedByUsername
+        "code": code, // Re-supply the existing code
+        "value": value, // Re-supply the existing value
+        "isRedeemed": true, // Update the isRedeemed status
+        "redeemedBy": redeemedByUsername // Add the username of the logged-in user
     };
-    console.log("Sending PUT request with body:", bodyData); // Log the data being sent
 
     fetch(url, {
         method: 'PUT',
@@ -420,12 +414,15 @@ function updateGiftCardAsRedeemed(id, code, value) {
     .then(updatedData => {
         console.log('Gift card redeemed successfully:', updatedData);
         alert('Gift card redeemed successfully!');
+        // Here, you might want to update the UI or perform additional actions
     })
     .catch(error => {
         console.error('Error marking gift card as redeemed:', error);
         alert('Failed to mark gift card as redeemed. Please try again.');
     });
 }
+
+
 
 
 
