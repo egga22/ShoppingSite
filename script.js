@@ -388,13 +388,11 @@ function updateGiftCardAsRedeemed(id, code, value) {
 
     // Retrieve the username of the currently logged-in user from localStorage
     // Adjust this line if the username is stored/retrieved differently
-    const redeemedByUsername = localStorage.getItem('username');
 
     const bodyData = {
         "code": code, // Re-supply the existing code
         "value": value, // Re-supply the existing value
         "isRedeemed": true, // Update the isRedeemed status
-        "redeemedBy": redeemedByUsername // Add the username of the logged-in user
     };
 
     fetch(url, {
