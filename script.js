@@ -395,6 +395,7 @@ function updateGiftCardAsRedeemed(id, code, value) {
         "isRedeemed": true,
         "redeemedBy": loggedInUser // Ensure this matches your database schema exactly
     };
+    console.log('Sending update payload:', bodyData);
 
     fetch(url, {
         method: 'PUT',
@@ -413,7 +414,6 @@ function updateGiftCardAsRedeemed(id, code, value) {
         console.error('Error marking gift card as redeemed:', error);
         alert('Failed to mark gift card as redeemed. Please try again.');
     });
-    console.log('Sending update request with data:', JSON.stringify(bodyData))
 }
 
 function renderWishlist() {
