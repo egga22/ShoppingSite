@@ -51,8 +51,8 @@ function saveCartToDatabase() {
     // Prepare data to send
     const cartData = JSON.stringify({ username: username, cart: cart });
 
-    fetch('https://shoppingsite-0267.restdb.io/rest/cart', {
-        method: 'POST', // Use POST or PUT as needed by your backend
+    fetch('https://shoppingsite-0267.restdb.io/rest/accounts', {
+        method: 'PUT', // Use POST or PUT as needed by your backend
         headers: {
             'Content-Type': 'application/json',
             'x-apikey': 'yourApiKey' // Secure your API key properly
@@ -335,7 +335,7 @@ function fetchUserCart() {
     const username = localStorage.getItem('username');
     if (!username) return; // Stop if no username is found
 
-    fetch(`https://shoppingsite-0267.restdb.io/rest/cart?q={"username": "${username}"}`, {
+    fetch(`https://shoppingsite-0267.restdb.io/rest/accounts?q={"username": "${username}"}`, {
         method: 'GET',
         headers: {
             'x-apikey': 'yourApiKey' // Secure your API key properly
