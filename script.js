@@ -42,7 +42,29 @@ function generateGiftCardCode(value) {
 function addToCart(productName, price, isGiftCard = false) {
     cart.push({productName, price, isGiftCard});
     renderCartItems();
+    saveCartToDatabase();
 }
+function saveCartToDatabase() {
+    const username = localStorage.getItem('username'); // Assuming username is stored in localStorage
+    if (!username) return; // Stop if no user is logged in
+
+    // Prepare data to send
+    const cartData = JSON.stringify({ username: username, cart: cart });
+
+    fetch('https://shoppingsite-0267.restdb.io/rest/cart', {
+        method: 'POST', // Use POST or PUT as needed by your backend
+        headers: {
+            'Content-Type': 'application/json',
+            'x-apikey': 'yourApiKey' // Secure your API key properly
+        },
+        body: cartData
+    })
+    .then(response => response.json())
+    .then(data => console.log('Cart saved to database', data))
+    .catch(error => console.error('Error saving cart', error));
+}
+
+// Remember to call saveCartToDatabase() inside addToCart() after the item is added.
 
 
 
@@ -306,8 +328,28 @@ function login() {
         console.error('Error during login:', error);
         alert('Login failed');
     });
+    fetchUserCart();
 }
 
+function fetchUserCart() {
+    const username = localStorage.getItem('username');
+    if (!username) return; // Stop if no username is found
+
+    fetch(`https://shoppingsite-0267.restdb.io/rest/cart?q={"username": "${username}"}`, {
+        method: 'GET',
+        headers: {
+            'x-apikey': 'yourApiKey' // Secure your API key properly
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        cart = data.cart; // Assuming the cart is directly in the data
+        renderCartItems(); // Update your UI with the fetched cart
+    })
+    .catch(error => console.error('Error fetching cart', error));
+}
+
+// Call fetchUserCart() in login after setting localStorage with the username.
 
 
 function logout() {
@@ -497,6 +539,42 @@ function removeFromCart(index) {
 window.onload = function() {
     updateLoginStatus();
 };
+function fetchUserBalance(username) {
+    // Use the username to fetch the user's balance from the database
+    const url = `https://shoppingsite-0267.restdb.io/rest/accounts?q={"Username":"${username}"}`;
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'x-apikey': 'your-api-key'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data && data.length > 0) {
+            balance = data[0].balance; // Assuming balance is stored in the user's record
+            updateBalanceDisplay();
+        }
+    })
+    .catch(error => console.error('Failed to fetch user balance:', error));
+}
+function updateUserBalance(username, newBalance) {
+    // Assuming you have an endpoint to update the user's balance
+    const url = `https://shoppingsite-0267.restdb.io/rest/accounts/${username}`; // Use the appropriate URL and method
+    fetch(url, {
+        method: 'PUT', // or 'PATCH' depending on your API
+        headers: {
+            'Content-Type': 'application/json',
+            'x-apikey': 'your-api-key'
+        },
+        body: JSON.stringify({ balance: newBalance })
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        fetchUserBalance(username); // Fetch and update UI after updating the database
+    })
+    .catch(error => console.error('Error updating user balance:', error));
+}
+
 
 // Make sure to include this new function in your existing script.
 renderProducts(products);
