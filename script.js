@@ -295,6 +295,7 @@ function login() {
             // User found
             alert('Login successful');
             localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('username', username); // Save the logged-in username
             updateLoginStatus();
         } else {
             // User not found
@@ -389,10 +390,12 @@ function redeemGiftCard(code) {
 function updateGiftCardAsRedeemed(id, code, value) {
     const url = `https://shoppingsite-0267.restdb.io/rest/gift-card-codes/${id}`;
     const apiKey = '660d8c40d34bb00dc38ed4a9'; // Ensure this is your actual, correct API key
+    const redeemedByUsername = localStorage.getItem('username'); // Retrieve the username
     const bodyData = {
         "code": code, // Re-supply the existing code
         "value": value, // Re-supply the existing value
-        "isRedeemed": true // Update the isRedeemed status
+        "isRedeemed": true, // Update the isRedeemed status
+        "redeemedBy": redeemedByUsername // Add the redeemedBy field
     };
 
     fetch(url, {
@@ -419,6 +422,7 @@ function updateGiftCardAsRedeemed(id, code, value) {
         alert('Failed to mark gift card as redeemed. Please try again.');
     });
 }
+
 
 
 
