@@ -381,21 +381,19 @@ function redeemGiftCard(code) {
 }
 
 
+
+
+
+
+
 function updateGiftCardAsRedeemed(id, code, value) {
     const url = `https://shoppingsite-0267.restdb.io/rest/gift-card-codes/${id}`;
     const apiKey = '660d8c40d34bb00dc38ed4a9'; // Ensure this is your actual, correct API key
-    const loggedInUser = localStorage.getItem('loggedInUser');
-
-    // Debugging: Log the username being sent in the request
-    console.log(`Redeeming gift card for user: ${loggedInUser}`);
-
     const bodyData = {
-        "code": code,
-        "value": value,
-        "isRedeemed": true,
-        "redeemedBy": loggedInUser // Ensure this matches your database schema exactly
+        "code": code, // Re-supply the existing code
+        "value": value, // Re-supply the existing value
+        "isRedeemed": true // Update the isRedeemed status
     };
-    console.log('Sending update payload:', bodyData);
 
     fetch(url, {
         method: 'PUT',
@@ -405,16 +403,24 @@ function updateGiftCardAsRedeemed(id, code, value) {
         },
         body: JSON.stringify(bodyData)
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to mark gift card as redeemed');
+        }
+        return response.json();
+    })
     .then(updatedData => {
         console.log('Gift card redeemed successfully:', updatedData);
         alert('Gift card redeemed successfully!');
+        // Here, you might want to update the UI or perform additional actions
     })
     .catch(error => {
         console.error('Error marking gift card as redeemed:', error);
         alert('Failed to mark gift card as redeemed. Please try again.');
     });
 }
+
+
 
 function renderWishlist() {
     const wishlistItemsEl = document.getElementById('wishlist-items');
