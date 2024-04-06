@@ -384,17 +384,16 @@ function redeemGiftCard(code) {
 function updateGiftCardAsRedeemed(id, code, value) {
     const url = `https://shoppingsite-0267.restdb.io/rest/gift-card-codes/${id}`;
     const apiKey = '660d8c40d34bb00dc38ed4a9'; // Ensure this is your actual, correct API key
-
-    // Retrieve the username of the currently logged-in user from localStorage
     const loggedInUser = localStorage.getItem('loggedInUser');
 
-    console.log(`Attempting to redeem for user: ${loggedInUser}`); // Debugging line
+    // Debugging: Log the username being sent in the request
+    console.log(`Redeeming gift card for user: ${loggedInUser}`);
 
     const bodyData = {
         "code": code,
         "value": value,
         "isRedeemed": true,
-        "redeemedBy": loggedInUser // Make sure this field name matches your database schema
+        "redeemedBy": loggedInUser // Ensure this matches your database schema exactly
     };
 
     fetch(url, {
@@ -405,12 +404,7 @@ function updateGiftCardAsRedeemed(id, code, value) {
         },
         body: JSON.stringify(bodyData)
     })
-    .then(response => {
-        if (!response.ok) {
-            return response.text().then(text => { throw new Error(text) });
-        }
-        return response.json();
-    })
+    .then(response => response.json())
     .then(updatedData => {
         console.log('Gift card redeemed successfully:', updatedData);
         alert('Gift card redeemed successfully!');
@@ -420,6 +414,7 @@ function updateGiftCardAsRedeemed(id, code, value) {
         alert('Failed to mark gift card as redeemed. Please try again.');
     });
 }
+
 
 
 
