@@ -45,23 +45,39 @@ function addToCart(productName, price, isGiftCard = false) {
     saveCartToDatabase();
 }
 function saveCartToDatabase() {
-    const username = localStorage.getItem('username'); // Assuming username is stored in localStorage
-    if (!username) return; // Stop if no user is logged in
+    const username = localStorage.getItem('username'); // Assuming username is stored
+    if (!username) return; // Exit if no user is logged in
 
-    // Prepare data to send
-    const cartData = JSON.stringify({ username: username, cart: cart });
-
-    fetch('https://shoppingsite-0267.restdb.io/rest/accounts', {
-        method: 'PUT', // Use POST or PUT as needed by your backend
+    // Fetch to get user's record ID first (assuming this step is necessary to obtain the record ID for the PUT request)
+    fetch(`https://shoppingsite-0267.restdb.io/rest/accounts?q={"username":"${username}"}`, {
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'x-apikey': 'yourApiKey' // Secure your API key properly
-        },
-        body: cartData
+            'x-apikey': '660d8c40d34bb00dc38ed4a9'
+        }
     })
     .then(response => response.json())
-    .then(data => console.log('Cart saved to database', data))
-    .catch(error => console.error('Error saving cart', error));
+    .then(users => {
+        if(users.length > 0) {
+            // Assuming the first user is the correct one
+            const user = users[0];
+            const cartData = JSON.stringify({ cart: cart });
+
+            // Now, PUT request to update the user's cart
+            fetch(`https://shoppingsite-0267.restdb.io/rest/accounts/${user._id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-apikey': '660d8c40d34bb00dc38ed4a9'
+                },
+                body: cartData
+            })
+            .then(response => response.json())
+            .then(updatedUser => console.log('Cart updated in database', updatedUser))
+            .catch(error => console.error('Error updating cart in database', error));
+        }
+    })
+    .catch(error => console.error('Error fetching user for cart update', error));
 }
 
 // Remember to call saveCartToDatabase() inside addToCart() after the item is added.
