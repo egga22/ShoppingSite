@@ -1,4 +1,5 @@
 //js
+const apiKey = '660d8c40d34bb00dc38ed4a9'; // Remember to secure your API key
 let balance = 0;
 let cart = [];
 let purchaseHistory = [];
@@ -351,19 +352,30 @@ function fetchUserCart() {
     const username = localStorage.getItem('username');
     if (!username) return; // Stop if no username is found
 
-    fetch(`https://shoppingsite-0267.restdb.io/rest/accounts?q={"username": "${username}"}`, {
+    const query = encodeURIComponent(`{"username":"${username}"}`);
+    fetch(`https://shoppingsite-0267.restdb.io/rest/accounts?q=${query}`, {
         method: 'GET',
         headers: {
-            'x-apikey': 'yourApiKey' // Secure your API key properly
+            'Content-Type': 'application/json',
+            'x-apikey': '660d8c40d34bb00dc38ed4a9'
         }
     })
-    .then(response => response.json())
-    .then(data => {
-        cart = data.cart; // Assuming the cart is directly in the data
-        renderCartItems(); // Update your UI with the fetched cart
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
     })
-    .catch(error => console.error('Error fetching cart', error));
+    .then(data => {
+        if (data && data.length > 0) {
+            // Assuming the cart is stored directly in the data object and is an array
+            cart = data[0].cart || [];
+            renderCartItems(); // Update UI with fetched cart
+        }
+    })
+    .catch(error => console.error('Error fetching cart:', error));
 }
+
 
 // Call fetchUserCart() in login after setting localStorage with the username.
 
