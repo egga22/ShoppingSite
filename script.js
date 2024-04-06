@@ -44,8 +44,10 @@ function addToCart(productName, price, isGiftCard = false) {
     cart.push({productName, price, isGiftCard});
     renderCartItems();
     saveCartToDatabase();
+    console.log("ATC")
 }
 function saveCartToDatabase() {
+    console.log("SAVINGTODATABASE")
     const username = localStorage.getItem('username'); // Assuming username is stored
     if (!username) return; // Exit if no user is logged in
 
@@ -79,10 +81,8 @@ function saveCartToDatabase() {
         }
     })
     .catch(error => console.error('Error fetching user for cart update', error));
-}
-
 // Remember to call saveCartToDatabase() inside addToCart() after the item is added.
-
+}
 
 
 const products = [
