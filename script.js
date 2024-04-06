@@ -349,7 +349,7 @@ function login() {
 }
 
 function fetchUserCart() {
-    const username = localStorage.getItem('username');
+    const username = localStorage.getItem("username");
     if (!username) return; // Stop if no username is found
 
     const query = encodeURIComponent(`{"username":"${username}"}`);
