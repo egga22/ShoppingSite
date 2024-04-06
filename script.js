@@ -430,9 +430,10 @@ function redeemGiftCard(code) {
                     'x-apikey': apiKey
                 },
                 body: JSON.stringify({
-                    "code": data[0].code, // Assuming you want to reaffirm the code, though this might be optional depending on your backend requirements.
-                    "value": value, // Use the value variable here
-                    "isRedeemed": true
+                    "code": code, // Re-supply the existing code
+                    "value": value, // Re-supply the existing value
+                    "isRedeemed": true, // Update the isRedeemed status
+                    "redeemedBy": localStorage.getItem("username")
                 })
             });
         }
