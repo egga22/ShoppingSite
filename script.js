@@ -463,7 +463,7 @@ function updateGiftCardAsRedeemed(id, code, value) {
         "code": code, // Re-supply the existing code
         "value": value, // Re-supply the existing value
         "isRedeemed": true, // Update the isRedeemed status
-        "redeemedBy": localStorage.getItem('username')
+        "redeemedBy": "foot"
     };
 
     fetch(url, {
