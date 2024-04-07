@@ -50,9 +50,9 @@ function saveCartToDatabase() {
     console.log("SAVINGTODATABASE")
     const username = localStorage.getItem('username'); // Assuming username is stored
     if (!username) return; // Exit if no user is logged in
-
+    
     // Fetch to get user's record ID first (assuming this step is necessary to obtain the record ID for the PUT request)
-    fetch(`https://shoppingsite-0267.restdb.io/rest/accounts?q={"username":"${username}"}`, {
+    fetch(`https://shoppingsite-0267.restdb.io/rest/accounts?q={"Username":"${username}"}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
