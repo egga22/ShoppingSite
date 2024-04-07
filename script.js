@@ -48,6 +48,7 @@ function addToCart(productName, price, isGiftCard = false) {
 
 function saveCartToDatabase() {
     console.log("SAVING TO DATABASE");
+    const apiKey = '660d8c40d34bb00dc38ed4a9'; // Remember to secure your API key
     const username = localStorage.getItem('username');
     if (!username) {
         console.error('No username found in localStorage.');
