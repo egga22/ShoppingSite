@@ -62,6 +62,7 @@ function saveCartToDatabase() {
     .then(response => response.json())
     .then(users => {
         if(users.length > 0) {
+            console.log("UL>0");
             // Assuming the first user is the correct one
             const user = users[0];
             const cartData = JSON.stringify({ cart: cart });
