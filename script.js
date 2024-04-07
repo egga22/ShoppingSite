@@ -1,5 +1,4 @@
 //js
-const apiKey = '660d8c40d34bb00dc38ed4a9'; // Remember to secure your API key
 let balance = 0;
 let cart = [];
 let purchaseHistory = [];
@@ -105,7 +104,7 @@ function saveCartToDatabase() {
 
 const products = [
     //products
-   { name: 'Video Game', price: 60 },
+    { name: 'Video Game', price: 60 },
     { name: 'Gaming Console', price: 500 },
     { name: 'Ice Cream', price: 12 },
     { name: 'Movie Ticket', price: 14 },
