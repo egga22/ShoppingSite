@@ -48,7 +48,7 @@ function addToCart(productName, price, isGiftCard = false) {
 
 function saveCartToDatabase() {
     console.log("SAVING TO DATABASE");
-    const apiKey = '660d8c40d34bb00dc38ed4a9'; // Remember to secure your API key
+    const apiKey = '660d8c40d34bb00dc38ed4a9'; // Remember to secure your API keyF
     const username = localStorage.getItem('username');
     if (!username) {
         console.error('No username found in localStorage.');
@@ -385,7 +385,9 @@ function fetchUserCart() {
         return response.json();
     })
     .then(data => {
+        console.log("1")
         if (data && data.length > 0) {
+            console.log("2");
             // Assuming the cart is stored directly in the data object and is an array
             cart = data[0].cart || [];
             renderCartItems(); // Update UI with fetched cart
