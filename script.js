@@ -353,7 +353,7 @@ function fetchUserCart() {
     const username = localStorage.getItem("username");
     if (!username) return; // Stop if no username is found
 
-    const query = encodeURIComponent(`{"username":"${username}"}`);
+    const query = encodeURIComponent(`{"Username":"${username}"}`);
     fetch(`https://shoppingsite-0267.restdb.io/rest/accounts?q=${query}`, {
         method: 'GET',
         headers: {
