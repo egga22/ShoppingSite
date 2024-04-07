@@ -64,8 +64,11 @@ function saveCartToDatabase() {
         if(users.length > 0) {
             console.log("UL>0");
             // Assuming the first user is the correct one
+            const updateData = {
+                cart: cart
+            }
             const user = users[0];
-            const cartData = JSON.stringify({ cart: cart });
+            // const cartData = JSON.stringify({ cart: cart });
 
             // Now, PUT request to update the user's cart
             fetch(`https://shoppingsite-0267.restdb.io/rest/accounts/${user._id}`, {
@@ -74,7 +77,7 @@ function saveCartToDatabase() {
                     'Content-Type': 'application/json',
                     'x-apikey': '660d8c40d34bb00dc38ed4a9'
                 },
-                body: cartData
+                body: JSON.stringify(updateData)
             })
             .then(response => response.json())
             .then(updatedUser => console.log('Cart updated in database', updatedUser))
