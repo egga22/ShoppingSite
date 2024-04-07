@@ -50,8 +50,8 @@ function saveCartToDatabase() {
     console.log("SAVINGTODATABASE")
     const username = localStorage.getItem('username'); // Assuming username is stored
     if (!username) return; // Exit if no user is logged in
-    
-    // Fetch to get user's record ID first (assuming this step is necessary to obtain the record ID for the PUT request)
+
+    // Fetch to get user's record first
     fetch(`https://shoppingsite-0267.restdb.io/rest/accounts?q={"Username":"${username}"}`, {
         method: 'GET',
         headers: {
@@ -62,31 +62,41 @@ function saveCartToDatabase() {
     .then(response => response.json())
     .then(users => {
         if(users.length > 0) {
-            console.log("UL>0");
-            // Assuming the first user is the correct one
-            const updateData = {
-                cart: cart
-            }
             const user = users[0];
-            // const cartData = JSON.stringify({ cart: cart });
 
             // Now, PUT request to update the user's cart
-            fetch(`https://shoppingsite-0267.restdb.io/rest/accounts/${user._id}`, {
+            const updatedData = {
+                Username: user.Username, // keep Username unchanged
+                cart: cart // the new cart to update
+                // Do not send password if it's not required for the update
+            };
+
+            return fetch(`https://shoppingsite-0267.restdb.io/rest/accounts/${user._id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                     'x-apikey': '660d8c40d34bb00dc38ed4a9'
                 },
-                body: JSON.stringify(updateData)
-            })
-            .then(response => response.json())
-            .then(updatedUser => console.log('Cart updated in database', updatedUser))
-            .catch(error => console.error('Error updating cart in database', error));
+                body: JSON.stringify(updatedData)
+            });
+        }
+        else {
+            throw new Error("No user found for the given username.");
         }
     })
-    .catch(error => console.error('Error fetching user for cart update', error));
-// Remember to call saveCartToDatabase() inside addToCart() after the item is added.
+    .then(response => {
+        if (!response.ok) {
+            // If the response is not ok, throw an error to catch it later
+            return response.json().then(errorData => {
+                throw new Error(errorData.message);
+            });
+        }
+        return response.json();
+    })
+    .then(updatedUser => console.log('Cart updated in database', updatedUser))
+    .catch(error => console.error('Error updating cart in database', error));
 }
+
 
 
 const products = [
