@@ -616,7 +616,7 @@ function fetchUserBalance(username) {
 }
 
 async function updateUserBalance(username, newBalance) {
-    // First, fetch the user's ID using the username
+    console.log("#satan  for life")
     const query = encodeURIComponent(`{"Username":"${username}"}`);
     try {
         const response = await fetch(`https://shoppingsite-0267.restdb.io/rest/accounts?q=${query}`, {
