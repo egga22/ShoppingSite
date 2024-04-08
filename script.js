@@ -352,8 +352,13 @@ function login() {
             // User found
             alert('Login successful');
             localStorage.setItem('isLoggedIn', 'true');
+<<<<<<< HEAD
+            // Update login status and fetch cart data immediately after login
+            renderCartItems()
+
             localStorage.setItem('username', username); // Store the username in localStorage
             updateLoginStatus();
+>>>>>>> c24586c2d0a38c6f9131eb16b08369c217b70d1d
         } else {
             // User not found
             alert('Login failed');
@@ -396,10 +401,14 @@ function fetchUserCart() {
     .catch(error => console.error('Error fetching cart:', error));
 }
 
+<<<<<<< HEAD
+
+=======
 
 // Call fetchUserCart() in login after setting localStorage with the username.
 
 
+>>>>>>> c24586c2d0a38c6f9131eb16b08369c217b70d1d
 function logout() {
     localStorage.removeItem('isLoggedIn');
     updateLoginStatus();
