@@ -370,6 +370,7 @@ function login() {
             // Update login status and fetch cart data immediately after login
             renderCartItems()
             localStorage.setItem('username', username); // Store the username in localStorage
+            fetchUserBalance(username); // Fetch and update the balance
             updateLoginStatus();
         } else {
             // User not found
@@ -651,6 +652,14 @@ async function updateUserBalance(username, newBalance) {
         console.error('Error updating user balance:', error);
     }
 }
+window.onload = function() {
+    updateLoginStatus(); // Your existing logic
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    const username = localStorage.getItem('username');
+    if (isLoggedIn && username) {
+        fetchUserBalance(username); // Fetch and update the balance if logged in
+    }
+};
 
 
 
