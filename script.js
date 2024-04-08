@@ -118,6 +118,7 @@ const products = [
     { name: 'High End Skateboard', price: 100, img: "https://m.media-amazon.com/images/I/714SrAn3W+L._AC_SX425_.jpg" },
     { name: '$10 Roblox Gift Card', price: 10, img: "https://fpstatic.cashstar.com/faceplates/DTCPGTNS5/MASTER-1.png" },
     { name: '$20 Roblox Gift Card', price: 20, img: "https://fpstatic.cashstar.com/faceplates/DTCPGTNS5/MASTER-1.png" },
+    { name: '$50 Roblox Gift Card', price: 50, img: "https://fpstatic.cashstar.com/faceplates/DTCPGTNS5/MASTER-1.png" },
     { name: 'Nike Shoes', price: 120, img: "https://m.media-amazon.com/images/I/51RFfemMaoL._AC_SY625_.jpg" },
     { name: 'Lego Set', price: 80, img: "https://m.media-amazon.com/images/I/81uHFvVmGkL.__AC_SX300_SY300_QL70_FMwebp_.jpg" },
     { name: 'Poster', price: 20, img: "https://m.media-amazon.com/images/I/71j-fENqR0L._AC_SY450_.jpg" },
