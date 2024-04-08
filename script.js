@@ -615,21 +615,22 @@ function fetchUserBalance(username) {
     .catch(error => console.error('Failed to fetch user balance:', error));
 }
 
-function updateUserBalance(username, newBalance) {
+async function updateUserBalance(username, newBalance) {
     // First, fetch the user's ID using the username
     const query = encodeURIComponent(`{"Username":"${username}"}`);
-    fetch(`https://shoppingsite-0267.restdb.io/rest/accounts?q=${query}`, {
-        method: 'GET',
-        headers: {
-            'x-apikey': '660d8c40d34bb00dc38ed4a9' // Your actual API key
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
+    try {
+        const response = await fetch(`https://shoppingsite-0267.restdb.io/rest/accounts?q=${query}`, {
+            method: 'GET',
+            headers: {
+                'x-apikey': '660d8c40d34bb00dc38ed4a9' // Your actual API key
+            }
+        });
+        const data = await response.json();
         if (data && data.length > 0) {
-            const userId = data[0]._id; // Assuming the user's ID is in the response
-            const url = `https://shoppingsite-0267.restdb.io/rest/accounts/${userId}`;
-            return fetch(url, {
+            const userId = data[0]._id;
+            console.log('User ID:', userId); // Debugging line
+            const updateUrl = `https://shoppingsite-0267.restdb.io/rest/accounts/${userId}`;
+            const updateResponse = await fetch(updateUrl, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -637,14 +638,16 @@ function updateUserBalance(username, newBalance) {
                 },
                 body: JSON.stringify({ balance: newBalance })
             });
+            if (!updateResponse.ok) throw new Error('Failed to update user balance');
+            console.log('Balance updated successfully');
+        } else {
+            console.error('User not found');
         }
-    })
-    .then(response => {
-        if (!response.ok) throw new Error('Network response was not ok');
-        console.log('Balance updated successfully');
-    })
-    .catch(error => console.error('Error updating user balance:', error));
+    } catch (error) {
+        console.error('Error updating user balance:', error);
+    }
 }
+
 
 
 
