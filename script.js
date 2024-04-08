@@ -397,15 +397,6 @@ function fetchUserCart() {
     })
     .catch(error => console.error('Error fetching cart:', error));
 }
-
-<<<<<<< HEAD
-
-=======
-
-// Call fetchUserCart() in login after setting localStorage with the username.
-
-
->>>>>>> c24586c2d0a38c6f9131eb16b08369c217b70d1d
 function logout() {
     localStorage.removeItem('isLoggedIn');
     updateLoginStatus();
