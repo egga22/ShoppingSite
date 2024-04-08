@@ -187,6 +187,10 @@ function checkout() {
 
     // Complete the checkout process
     balance -= finalTotal;
+    const username = localStorage.getItem('username');
+    if (username) {
+        updateUserBalance(username, balance);
+    }
     purchaseHistory.push(...cart.filter(item => !item.isGiftCard)); // Exclude gift cards from purchase history
     cart = []; // Clear the cart
     alert('Purchase successful!');
@@ -200,10 +204,17 @@ function checkout() {
 function addBalance() {
     const amount = prompt('How much would you like to add?');
     if (amount) {
-        balance += parseInt(amount, 10);
+        const newAmount = parseInt(amount, 10);
+        balance += newAmount;
         updateBalanceDisplay();
+        // Assume username is stored in localStorage after login
+        const username = localStorage.getItem('username');
+        if (username) {
+            updateUserBalance(username, balance);
+        }
     }
 }
+
 
 function updateBalanceDisplay() {
     document.getElementById('balance-amount').textContent = balance;
@@ -587,12 +598,11 @@ window.onload = function() {
     updateLoginStatus();
 };
 function fetchUserBalance(username) {
-    // Use the username to fetch the user's balance from the database
     const url = `https://shoppingsite-0267.restdb.io/rest/accounts?q={"Username":"${username}"}`;
     fetch(url, {
         method: 'GET',
         headers: {
-            'x-apikey': 'your-api-key'
+            'x-apikey': '660d8c40d34bb00dc38ed4a9' // Use your actual API key here
         }
     })
     .then(response => response.json())
@@ -604,23 +614,38 @@ function fetchUserBalance(username) {
     })
     .catch(error => console.error('Failed to fetch user balance:', error));
 }
+
 function updateUserBalance(username, newBalance) {
-    // Assuming you have an endpoint to update the user's balance
-    const url = `https://shoppingsite-0267.restdb.io/rest/accounts/${username}`; // Use the appropriate URL and method
-    fetch(url, {
-        method: 'PUT', // or 'PATCH' depending on your API
+    // First, fetch the user's ID using the username
+    const query = encodeURIComponent(`{"Username":"${username}"}`);
+    fetch(`https://shoppingsite-0267.restdb.io/rest/accounts?q=${query}`, {
+        method: 'GET',
         headers: {
-            'Content-Type': 'application/json',
-            'x-apikey': 'your-api-key'
-        },
-        body: JSON.stringify({ balance: newBalance })
+            'x-apikey': '660d8c40d34bb00dc38ed4a9' // Your actual API key
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data && data.length > 0) {
+            const userId = data[0]._id; // Assuming the user's ID is in the response
+            const url = `https://shoppingsite-0267.restdb.io/rest/accounts/${userId}`;
+            return fetch(url, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-apikey': '660d8c40d34bb00dc38ed4a9'
+                },
+                body: JSON.stringify({ balance: newBalance })
+            });
+        }
     })
     .then(response => {
         if (!response.ok) throw new Error('Network response was not ok');
-        fetchUserBalance(username); // Fetch and update UI after updating the database
+        console.log('Balance updated successfully');
     })
     .catch(error => console.error('Error updating user balance:', error));
 }
+
 
 
 // Make sure to include this new function in your existing script.
