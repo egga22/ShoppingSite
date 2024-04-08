@@ -281,6 +281,10 @@ function renderProducts(productArray) {
 function updateBalance(amount) {
     balance += amount;
     updateBalanceDisplay();
+    const username = localStorage.getItem('username');
+        if (username) {
+            updateUserBalance(username, balance);
+        }
 }
 function searchProducts() {
     const searchValue = document.getElementById('search-input').value.toLowerCase();
