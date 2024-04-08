@@ -112,7 +112,7 @@ const products = [
     { name: 'Pair of Pants', price: 40, img: "https://m.media-amazon.com/images/I/813-PeyXi2L._AC_SX522_.jpg" },
     { name: 'Nerf Gun', price: 25, img: "https://m.media-amazon.com/images/I/618LQZjaFHL.__AC_SX300_SY300_QL70_FMwebp_.jpg"},
     { name: 'Pokemon Card Pack', price: 15, img: "https://m.media-amazon.com/images/I/61TE86s9NBL.__AC_SY300_SX300_QL70_FMwebp_.jpg"},
-    { name: 'Anime Convention Ticket', price: 150, img: "https://www.google.com/url?sa=i&url=https%3A%2F%2Finfinityanais.wixsite.com%2Fwebsite%2Ffullscreen-page%2Fcomp-jmp4sw27%2Fd6d45982-5f12-4b10-acc0-68844507e035%2F8%2F%253Fi%253D8%2526p%253Dc1dmp%2526s%253Dstyle-jdybsv4s&psig=AOvVaw0Wo1d5u0AVqu6XzDqZV2Ak&ust=1712686629384000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCPC614Sds4UDFQAAAAAdAAAAABAE" },
+    { name: 'Anime Convention Ticket', price: 150, img: "https://www.t-ono.net/media/k2/items/cache/e578c616ab24d5ce2543a79c560f9317_XL.jpg" },
     { name: 'Fancy Pencil Set', price: 25, img: "https://m.media-amazon.com/images/I/519tEtGILdL.__AC_SY300_SX300_QL70_FMwebp_.jpg" },
     { name: 'Movie Ticket 3 Pack', price: 40, img: "https://i.ibb.co/jGzRv16/Untitled-presentation.png" },
     { name: 'High End Skateboard', price: 100, img: "https://m.media-amazon.com/images/I/714SrAn3W+L._AC_SX425_.jpg" },
@@ -126,9 +126,9 @@ const products = [
     { name: '$20 Arcade credits', price: 20, img: "https://m.media-amazon.com/images/I/51fEd9uiTWL.jpg" },
     { name: '$40 Arcade credits', price: 40, img: "https://m.media-amazon.com/images/I/51fWD3vt8sL.jpg" },
     { name: '$100 Arcade credits', price: 100, img: "https://m.media-amazon.com/images/I/51fWD3vt8sL.jpg" },
-    { name: '$5 Gift Card', price: 5, isGiftCard: true },
-    { name: '$10 Gift Card', price: 10, isGiftCard: true },
-    { name: '$20 Gift Card', price: 20, isGiftCard: true }
+    { name: '$5 Gift Card', price: 5, isGiftCard: true, img: "https://i.ibb.co/5GKVt5P/A-10-gift-card-for-a-shopping-website-called-Elliott-s-shopping-site-2.png" },
+    { name: '$10 Gift Card', price: 10, isGiftCard: true, img: "https://i.ibb.co/Gx3d3Nz/A-10-gift-card-for-a-shopping-website-called-Elliott-s-shopping-site.png" },
+    { name: '$20 Gift Card', price: 20, isGiftCard: true, img: "https://i.ibb.co/gTJsyFJ/A-10-gift-card-for-a-shopping-website-called-Elliott-s-shopping-site-1.png" }
   
 ];
 let currentDisplayedProducts = products; // This will always hold the currently displayed products
