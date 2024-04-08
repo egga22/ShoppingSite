@@ -155,3 +155,10 @@ button:hover {
         margin-top: 15px;
     }
 }
+
+.product-image {
+    width: 100px; /* Adjust based on your layout */
+    height: auto;
+    display: block;
+    margin: 0 auto 10px; /* Center image and add some space below */
+}

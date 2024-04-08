@@ -105,7 +105,7 @@ function saveCartToDatabase() {
 
 const products = [
     //products
-    { name: 'Video Game', price: 60 },
+    { name: 'Video Game', price: 60, img: "https://m.media-amazon.com/images/I/7166--AaJIL._SX342_.jpg" },
     { name: 'Gaming Console', price: 500 },
     { name: 'Ice Cream', price: 12 },
     { name: 'Movie Ticket', price: 14 },
@@ -265,7 +265,16 @@ function renderProducts(productArray) {
     productArray.forEach(product => {
         const productEl = document.createElement('div');
         productEl.className = 'product';
-        productEl.innerHTML = `
+
+        // Create image element
+        const imgEl = document.createElement('img');
+        imgEl.src = product.img; // Set image source
+        imgEl.alt = product.name; // Set alt text
+        imgEl.className = 'product-image'; // Optional: Add a class for styling
+
+        productEl.appendChild(imgEl); // Append the image to the product element
+
+        productEl.innerHTML += `
             <span class="name">${product.name}</span>
             <span class="price">$${product.price}</span>
             <button onclick="addToCart('${product.name.replace("'", "\\'")}', ${product.price}${product.isGiftCard ? ', true' : ''})">Add to Cart</button>
@@ -274,6 +283,7 @@ function renderProducts(productArray) {
         productListEl.appendChild(productEl);
     });
 }
+
 
 
 // Existing JavaScript code
