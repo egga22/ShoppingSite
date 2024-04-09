@@ -308,7 +308,7 @@ function attemptRegister() {
 }
 function register(username, password) {
     // Ensure the username is unique and has not been used before
-    username = String(username).trim();
+    username = String(username).trim().toLowerCase();
     password = String(password).trim();
 
     const url = 'https://shoppingsite-0267.restdb.io/rest/accounts';
@@ -351,7 +351,7 @@ function register(username, password) {
 
 
 function login() {
-    const username = document.getElementById('login-username').value;
+    let username = document.getElementById('login-username').value.trim().toLowerCase(); // Convert to lowercase
     const password = document.getElementById('login-password').value;
 
     const query = encodeURIComponent(`{"Username":"${username}","password":"${password}"}`);
@@ -375,9 +375,7 @@ function login() {
             // User found
             alert('Login successful');
             localStorage.setItem('isLoggedIn', 'true');
-            // Update login status and fetch cart data immediately after login
-            renderCartItems()
-            localStorage.setItem('username', username); // Store the username in localStorage
+            localStorage.setItem('username', username); // Store the username in lowercase in localStorage
             fetchUserBalance(username); // Fetch and update the balance
             updateLoginStatus();
         } else {
@@ -389,8 +387,8 @@ function login() {
         console.error('Error during login:', error);
         alert('Login failed');
     });
-    fetchUserCart();
 }
+
 
 function fetchUserCart() {
     const username = localStorage.getItem("username");
