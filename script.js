@@ -115,6 +115,7 @@ const products = [
     { name: 'Anime Convention Ticket', price: 150, img: "https://www.t-ono.net/media/k2/items/cache/e578c616ab24d5ce2543a79c560f9317_XL.jpg" },
     { name: 'Fancy Pencil Set', price: 25, img: "https://m.media-amazon.com/images/I/519tEtGILdL.__AC_SY300_SX300_QL70_FMwebp_.jpg" },
     { name: 'Movie Ticket 3 Pack', price: 40, img: "https://i.ibb.co/jGzRv16/Untitled-presentation.png" },
+    { name: 'Anime t-shirt', price: 70, img: "https://i.ibb.co/Myv97tK/DALL-E-2024-04-09-15-44-25-A-stylish-modern-t-shirt-featuring-a-vibrant-anime-character-The-t-shirt.webp" },
     { name: 'High End Skateboard', price: 100, img: "https://m.media-amazon.com/images/I/714SrAn3W+L._AC_SX425_.jpg" },
     { name: '$10 Roblox Gift Card', price: 10, img: "https://fpstatic.cashstar.com/faceplates/DTCPGTNS5/MASTER-1.png" },
     { name: '$20 Roblox Gift Card', price: 20, img: "https://fpstatic.cashstar.com/faceplates/DTCPGTNS5/MASTER-1.png" },
