@@ -678,7 +678,7 @@ window.onload = function() {
 };
 window.onload = function() {
     google.accounts.id.initialize({
-      client_id: "YOUR_CLIENT_ID",
+      client_id: "20859272744-g2h36a1eb9mmsf46d474t7afhinfcet4.apps.googleusercontent.com",
       callback: handleCredentialResponse
     });
     google.accounts.id.renderButton(
