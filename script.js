@@ -1,4 +1,14 @@
 //js
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+    apiKey: "AIzaSyDkDjPcUcDDsP2UDsfdF_mItknyRoimk1w",
+    authDomain: "eggas-shopping-site.firebaseapp.com",
+    projectId: "eggas-shopping-site",
+    storageBucket: "eggas-shopping-site.appspot.com",
+    messagingSenderId: "927805795789",
+    appId: "1:927805795789:web:966656e8e6635e0a612884",
+    measurementId: "G-60J8CSZN7M"
+  };
 let balance = 0;
 let cart = [];
 let purchaseHistory = [];
@@ -666,7 +676,23 @@ window.onload = function() {
         fetchUserBalance(username); // Fetch and update the balance if logged in
     }
 };
-
+window.onload = function() {
+    google.accounts.id.initialize({
+      client_id: "YOUR_CLIENT_ID",
+      callback: handleCredentialResponse
+    });
+    google.accounts.id.renderButton(
+      document.getElementById("g_id_signin"),
+      { theme: "outline", size: "large" }
+    );
+    google.accounts.id.prompt(); // This line is optional, for automatic sign-in prompt.
+  };
+  
+  function handleCredentialResponse(response) {
+    console.log("Encoded JWT ID token: " + response.credential);
+    // Use this JWT token to authenticate the user on your server
+  }
+  
 
 
 
