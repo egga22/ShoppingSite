@@ -669,29 +669,25 @@ async function updateUserBalance(username, newBalance) {
     }
 }
 window.onload = function() {
-    updateLoginStatus(); // Your existing logic
+    updateLoginStatus();
+    // Your existing logic
     const isLoggedIn = localStorage.getItem('isLoggedIn');
     const username = localStorage.getItem('username');
     if (isLoggedIn && username) {
         fetchUserBalance(username); // Fetch and update the balance if logged in
     }
-};
-window.onload = function() {
+    // Initialize Google Sign-In
     google.accounts.id.initialize({
-      client_id: "20859272744-g2h36a1eb9mmsf46d474t7afhinfcet4.apps.googleusercontent.com",
-      callback: handleCredentialResponse
+        client_id: "20859272744-g2h36a1eb9mmsf46d474t7afhinfcet4.apps.googleusercontent.com",
+        callback: handleCredentialResponse
     });
     google.accounts.id.renderButton(
-      document.getElementById("g_id_signin"),
-      { theme: "outline", size: "large" }
+        document.getElementById("g_id_signin"),
+        { theme: "outline", size: "large" }
     );
-    google.accounts.id.prompt(); // This line is optional, for automatic sign-in prompt.
-  };
-  
-  function handleCredentialResponse(response) {
-    console.log("Encoded JWT ID token: " + response.credential);
-    // Use this JWT token to authenticate the user on your server
-  }
+    google.accounts.id.prompt(); // Optional: for automatic sign-in prompt.
+};
+
   
 
 
