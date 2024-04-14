@@ -670,23 +670,93 @@ async function updateUserBalance(username, newBalance) {
 }
 window.onload = function() {
     updateLoginStatus();
-    // Your existing logic
-    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    // Load Google Sign-In if needed
+    if (!localStorage.getItem('isLoggedIn')) {
+        google.accounts.id.initialize({
+            client_id: "20859272744-g2h36a1eb9mmsf46d474t7afhinfcet4.apps.googleusercontent.com",
+            callback: handleCredentialResponse
+        });
+        google.accounts.id.renderButton(
+            document.getElementById("g_id_signin"),
+            { theme: "outline", size: "large" }
+        );
+        google.accounts.id.prompt(); // Optional: for automatic sign-in prompt.
+    }
+    // Fetch user balance if logged in
     const username = localStorage.getItem('username');
-    if (isLoggedIn && username) {
+    if (username) {
         fetchUserBalance(username); // Fetch and update the balance if logged in
     }
-    // Initialize Google Sign-In
-    google.accounts.id.initialize({
-        client_id: "20859272744-g2h36a1eb9mmsf46d474t7afhinfcet4.apps.googleusercontent.com",
-        callback: handleCredentialResponse
-    });
-    google.accounts.id.renderButton(
-        document.getElementById("g_id_signin"),
-        { theme: "outline", size: "large" }
-    );
-    google.accounts.id.prompt(); // Optional: for automatic sign-in prompt.
 };
+
+function handleCredentialResponse(response) {
+    const data = jwt_decode(response.credential); // Decode JWT to access payload
+    const userId = data.sub; // Google's user ID
+
+    checkUserExists(userId).then(userExists => {
+        if (!userExists) {
+            // Register new user in restdb.io if not already registered
+            createUser(data).then(() => {
+                console.log("New user registered.");
+                createSession(data);
+            });
+        } else {
+            // User exists, update last login or other relevant data
+            console.log("User logged in.");
+            createSession(data);
+        }
+    });
+}
+
+function createSession(userData) {
+    localStorage.setItem("isLoggedIn", true);
+    localStorage.setItem("user", JSON.stringify(userData)); // Store user data in localStorage
+    updateLoginStatus();
+    // Redirect user or update UI
+}
+
+function checkUserExists(userId) {
+    return fetch(`https://shoppingsite-0267.restdb.io/rest/accounts?q={"userId":"${userId}"}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-apikey': '660d8c40d34bb00dc38ed4a9'
+        }
+    })
+    .then(res => res.json())
+    .then(users => users.length > 0);
+}
+
+function createUser(userData) {
+    return fetch('https://shoppingsite-0267.restdb.io/rest/accounts', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-apikey': '660d8c40d34bb00dc38ed4a9'
+        },
+        body: JSON.stringify({
+            userId: userData.sub,
+            email: userData.email,
+            name: userData.name,
+            lastLogin: new Date().toISOString()
+        })
+    });
+}
+
+
+function updateUserLastLogin(userId) {
+    return fetch(`https://shoppingsite-0267.restdb.io/rest/accounts?q={"userId":"${userId}"}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-apikey': '660d8c40d34bb00dc38ed4a9'
+        },
+        body: JSON.stringify({
+            lastLogin: new Date().toISOString()
+        })
+    });
+}
+
 
   
 
