@@ -1,4 +1,7 @@
 //js
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
     apiKey: "AIzaSyDkDjPcUcDDsP2UDsfdF_mItknyRoimk1w",
@@ -690,23 +693,28 @@ window.onload = function() {
 };
 
 function handleCredentialResponse(response) {
-    const data = jwt_decode(response.credential); // Decode JWT to access payload
-    const userId = data.sub; // Google's user ID
+    const data = jwt_decode(response.credential);
+    const userId = data.sub;
 
-    checkUserExists(userId).then(userExists => {
-        if (!userExists) {
-            // Register new user in restdb.io if not already registered
-            createUser(data).then(() => {
-                console.log("New user registered.");
-                createSession(data);
+    // Example of checking user existence and creating a session
+    checkUserExists(userId).then(exists => {
+        if (!exists) {
+            // This is where you'd create a new user in your database
+            createUser(userId, data.email, data.name).then(() => {
+                console.log("User created and logged in!");
+                // Here you would create a session
+                localStorage.setItem("userId", userId);
+                updateLoginStatus();
             });
         } else {
-            // User exists, update last login or other relevant data
-            console.log("User logged in.");
-            createSession(data);
+            console.log("User already exists, logged in!");
+            // Update existing user session or last login time
+            localStorage.setItem("userId", userId);
+            updateLoginStatus();
         }
     });
 }
+
 
 function createSession(userData) {
     localStorage.setItem("isLoggedIn", true);
@@ -755,6 +763,20 @@ function updateUserLastLogin(userId) {
             lastLogin: new Date().toISOString()
         })
     });
+}
+function googleSignIn() {
+    var provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider)
+        .then((result) => {
+            console.log('User signed in');
+            // User is signed in.
+            // You can retrieve the user's profile info like this:
+            var user = result.user;
+            // Update the user info in your database or local storage
+        })
+        .catch((error) => {
+            console.error('Error signing in with Google:', error);
+        });
 }
 
 
