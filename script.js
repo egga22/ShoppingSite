@@ -1,7 +1,4 @@
 //js
-// Initialize Firebase
-
-const auth = firebase.auth();
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
     apiKey: "AIzaSyDkDjPcUcDDsP2UDsfdF_mItknyRoimk1w",
@@ -12,7 +9,6 @@ const firebaseConfig = {
     appId: "1:927805795789:web:966656e8e6635e0a612884",
     measurementId: "G-60J8CSZN7M"
   };
-firebase.initializeApp(firebaseConfig);
 let balance = 0;
 let cart = [];
 let purchaseHistory = [];
@@ -674,112 +670,23 @@ async function updateUserBalance(username, newBalance) {
 }
 window.onload = function() {
     updateLoginStatus();
-    // Load Google Sign-In if needed
-    if (!localStorage.getItem('isLoggedIn')) {
-        google.accounts.id.initialize({
-            client_id: "20859272744-g2h36a1eb9mmsf46d474t7afhinfcet4.apps.googleusercontent.com",
-            callback: handleCredentialResponse
-        });
-        google.accounts.id.renderButton(
-            document.getElementById("g_id_signin"),
-            { theme: "outline", size: "large" }
-        );
-        google.accounts.id.prompt(); // Optional: for automatic sign-in prompt.
-    }
-    // Fetch user balance if logged in
+    // Your existing logic
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
     const username = localStorage.getItem('username');
-    if (username) {
+    if (isLoggedIn && username) {
         fetchUserBalance(username); // Fetch and update the balance if logged in
     }
+    // Initialize Google Sign-In
+    google.accounts.id.initialize({
+        client_id: "20859272744-g2h36a1eb9mmsf46d474t7afhinfcet4.apps.googleusercontent.com",
+        callback: handleCredentialResponse
+    });
+    google.accounts.id.renderButton(
+        document.getElementById("g_id_signin"),
+        { theme: "outline", size: "large" }
+    );
+    google.accounts.id.prompt(); // Optional: for automatic sign-in prompt.
 };
-
-function handleCredentialResponse(response) {
-    const data = jwt_decode(response.credential);
-    const userId = data.sub;
-
-    // Example of checking user existence and creating a session
-    checkUserExists(userId).then(exists => {
-        if (!exists) {
-            // This is where you'd create a new user in your database
-            createUser(userId, data.email, data.name).then(() => {
-                console.log("User created and logged in!");
-                // Here you would create a session
-                localStorage.setItem("userId", userId);
-                updateLoginStatus();
-            });
-        } else {
-            console.log("User already exists, logged in!");
-            // Update existing user session or last login time
-            localStorage.setItem("userId", userId);
-            updateLoginStatus();
-        }
-    });
-}
-
-
-function createSession(userData) {
-    localStorage.setItem("isLoggedIn", true);
-    localStorage.setItem("user", JSON.stringify(userData)); // Store user data in localStorage
-    updateLoginStatus();
-    // Redirect user or update UI
-}
-
-function checkUserExists(userId) {
-    return fetch(`https://shoppingsite-0267.restdb.io/rest/accounts?q={"userId":"${userId}"}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'x-apikey': '660d8c40d34bb00dc38ed4a9'
-        }
-    })
-    .then(res => res.json())
-    .then(users => users.length > 0);
-}
-
-function createUser(userData) {
-    return fetch('https://shoppingsite-0267.restdb.io/rest/accounts', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'x-apikey': '660d8c40d34bb00dc38ed4a9'
-        },
-        body: JSON.stringify({
-            userId: userData.sub,
-            email: userData.email,
-            name: userData.name,
-            lastLogin: new Date().toISOString()
-        })
-    });
-}
-
-
-function updateUserLastLogin(userId) {
-    return fetch(`https://shoppingsite-0267.restdb.io/rest/accounts?q={"userId":"${userId}"}`, {
-        method: 'PATCH',
-        headers: {
-            'Content-Type': 'application/json',
-            'x-apikey': '660d8c40d34bb00dc38ed4a9'
-        },
-        body: JSON.stringify({
-            lastLogin: new Date().toISOString()
-        })
-    });
-}
-function googleSignIn() {
-    var provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider)
-        .then((result) => {
-            console.log('User signed in');
-            // User is signed in.
-            // You can retrieve the user's profile info like this:
-            var user = result.user;
-            // Update the user info in your database or local storage
-        })
-        .catch((error) => {
-            console.error('Error signing in with Google:', error);
-        });
-}
-
 
   
 
