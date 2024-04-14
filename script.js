@@ -1,6 +1,6 @@
 //js
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+
 const auth = firebase.auth();
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -12,6 +12,7 @@ const firebaseConfig = {
     appId: "1:927805795789:web:966656e8e6635e0a612884",
     measurementId: "G-60J8CSZN7M"
   };
+firebase.initializeApp(firebaseConfig);
 let balance = 0;
 let cart = [];
 let purchaseHistory = [];
