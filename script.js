@@ -9,6 +9,7 @@ const discountCodes = {
     'mereallylikemoney': 40,
     'mehopeyougobankrupt': 60,
     'melikefreestuff': 100,
+    'meistoopoortopayrent': 150,
 };
 let giftCardCodes = {}; // Stores codes and their values
 
