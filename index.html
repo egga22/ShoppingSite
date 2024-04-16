@@ -11,7 +11,16 @@
     <!-- Top Left Corner -->
     
     <div id="top-left-corner">
+        <script src="https://apis.google.com/js/api:client.js"></script>
+        <div id="gSignInWrapper">
+            <div id="customBtn" class="customGPlusSignIn">
+                <span class="icon"></span>
+                <span class="buttonText">Google</span>
+            </div>
+        </div>
+
         <div id="login">
+            
             <h3>Login</h3>
             <input type="text" id="login-username" placeholder="Username">
             <input type="password" id="login-password" placeholder="Password">
@@ -124,6 +133,7 @@
 <!-- partial -->
   <script src="./script.js"></script>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
+  
 
 </body>
 </html>

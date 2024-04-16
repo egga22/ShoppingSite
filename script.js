@@ -667,6 +667,45 @@ window.onload = function() {
         fetchUserBalance(username); // Fetch and update the balance if logged in
     }
 };
+let googleUser = {}; // The Google user object
+
+function startApp() {
+    gapi.load('auth2', function(){
+        // Initialize the Google auth2 library
+        auth2 = gapi.auth2.init({
+            client_id: 'YGOCSPX-XsJnZvUPf-kGiqNA8kT8uuIa5m5h.apps.googleusercontent.com',
+            cookiepolicy: 'single_host_origin',
+        });
+
+        attachSignin(document.getElementById('customBtn'));
+    });
+}
+
+function attachSignin(element) {
+    auth2.attachClickHandler(element, {},
+        function(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            console.log("Token || " + googleUser.getAuthResponse().id_token);
+            console.log("ID: " + profile.getId());
+            console.log('Full Name: ' + profile.getName());
+            console.log('Given Name: ' + profile.getGivenName());
+            console.log('Family Name: ' + profile.getFamilyName());
+            console.log("Image URL: " + profile.getImageUrl());
+            console.log("Email: " + profile.getEmail());
+
+            // You can now use this information to create/update a user in your database
+            checkUser(profile.getEmail(), googleUser.getAuthResponse().id_token);
+        }, function(error) {
+            alert(JSON.stringify(error, undefined, 2));
+        });
+}
+
+function checkUser(email, token) {
+    // Here, you can check if the user exists in your restdb.io database
+    // or create a new user entry if they do not exist.
+}
+
+startApp();
 
 
 
