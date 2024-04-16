@@ -125,7 +125,7 @@ const products = [
     { name: 'Lego Set', price: 80, img: "https://m.media-amazon.com/images/I/81uHFvVmGkL.__AC_SX300_SY300_QL70_FMwebp_.jpg" },
     { name: 'Poster', price: 20, img: "https://m.media-amazon.com/images/I/71j-fENqR0L._AC_SY450_.jpg" },
     { name: 'Music Album', price: 10, img: "https://m.media-amazon.com/images/I/41xPUHbhLZL._AC_UY327_FMwebp_QL65_.jpg" },
-    { name: '3 Pizzas', price: 40, img: "https:/https://i.ibb.co/QbPftmv/9881326a-4af1-4c10-b5ef-3f69a8ca534b.webp" },
+    { name: '3 Pizzas', price: 40, img: "https://i.ibb.co/QbPftmv/9881326a-4af1-4c10-b5ef-3f69a8ca534b.webp" },
     { name: '$20 Arcade credits', price: 20, img: "https://m.media-amazon.com/images/I/51fEd9uiTWL.jpg" },
     { name: '$40 Arcade credits', price: 40, img: "https://m.media-amazon.com/images/I/51fWD3vt8sL.jpg" },
     { name: '$100 Arcade credits', price: 100, img: "https://m.media-amazon.com/images/I/51fWD3vt8sL.jpg" },
