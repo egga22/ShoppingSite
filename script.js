@@ -431,10 +431,14 @@ function updateLoginStatus() {
         document.getElementById('login').style.display = 'none';
         document.getElementById('register').style.display = 'none';
         document.getElementById('logout-section').style.display = 'block';
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('userId', userData._id);  // Assuming `_id` is the user identifier
     } else {
         document.getElementById('login').style.display = 'block';
         document.getElementById('register').style.display = 'block';
         document.getElementById('logout-section').style.display = 'none';
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('userId');
     }
 }
 
@@ -700,9 +704,53 @@ function attachSignin(element) {
         });
 }
 
-function checkUser(email, token) {
-    // Here, you can check if the user exists in your restdb.io database
-    // or create a new user entry if they do not exist.
+function checkUser(email) {
+    const url = `https://shoppingsite-0267.restdb.io/rest/accounts?q={"email": "${email}"}`;
+    const apiKey = 'your_api_key_here';  // Use your actual API key
+
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-apikey': apiKey
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.length > 0) {
+            // User exists
+            console.log('User already exists:', data);
+            updateLoginStatus(true, data[0]);  // Update your app’s login state
+        } else {
+            // No user found, create new
+            createUser(email);
+        }
+    })
+    .catch(error => console.error('Error checking user:', error));
+
+}
+function createUser(email) {
+    const url = 'https://shoppingsite-0267.restdb.io/rest/accounts';
+    const apiKey = 'your_api_key_here';  // Use your actual API key
+    const userData = {
+        email: email,
+        created_at: new Date().toISOString()  // You can add other fields as needed
+    };
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-apikey': apiKey
+        },
+        body: JSON.stringify(userData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('User created:', data);
+        updateLoginStatus(true, data);  // Update your app’s login state
+    })
+    .catch(error => console.error('Error creating user:', error));
 }
 
 startApp();
