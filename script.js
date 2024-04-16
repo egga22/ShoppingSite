@@ -677,7 +677,7 @@ function startApp() {
     gapi.load('auth2', function(){
         // Initialize the Google auth2 library
         auth2 = gapi.auth2.init({
-            client_id: 'YGOCSPX-XsJnZvUPf-kGiqNA8kT8uuIa5m5h.apps.googleusercontent.com',
+            client_id: '20859272744-g2h36a1eb9mmsf46d474t7afhinfcet4.apps.googleusercontent.com',
             cookiepolicy: 'single_host_origin',
         });
 
