@@ -431,8 +431,6 @@ function updateLoginStatus() {
         document.getElementById('login').style.display = 'none';
         document.getElementById('register').style.display = 'none';
         document.getElementById('logout-section').style.display = 'block';
-        localStorage.setItem('isLoggedIn', 'true');
-        localStorage.setItem('userId', userData._id);  // Assuming `_id` is the user identifier
     } else {
         document.getElementById('login').style.display = 'block';
         document.getElementById('register').style.display = 'block';
@@ -674,6 +672,10 @@ window.onload = function() {
 let googleUser = {}; // The Google user object
 
 function startApp() {
+    if (typeof gapi === 'undefined') {
+        console.log('Google API not available');
+        return;
+    }
     gapi.load('auth2', function(){
         // Initialize the Google auth2 library
         auth2 = gapi.auth2.init({
