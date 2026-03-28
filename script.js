@@ -13,6 +13,11 @@ const discountCodes = {
 };
 let giftCardCodes = {}; // Stores codes and their values
 
+function normalizeBalance(value) {
+    const numericBalance = Number(value);
+    return Number.isFinite(numericBalance) ? numericBalance : 0;
+}
+
 function generateGiftCardCode(value) {
     const code = 'GC' + Math.random().toString(36).substr(2, 9).toUpperCase();
     const apiKey = '660d8c40d34bb00dc38ed4a9'; // Remember to secure your API key
@@ -203,8 +208,12 @@ function checkout() {
 function addBalance() {
     const amount = prompt('How much would you like to add?');
     if (amount) {
-        const newAmount = parseInt(amount, 10);
-        balance += newAmount;
+        const newAmount = Number(amount);
+        if (!Number.isFinite(newAmount) || newAmount <= 0) {
+            alert('Please enter a valid positive amount.');
+            return;
+        }
+        balance = normalizeBalance(balance) + newAmount;
         updateBalanceDisplay();
         // Assume username is stored in localStorage after login
         const username = localStorage.getItem('username');
@@ -216,6 +225,7 @@ function addBalance() {
 
 
 function updateBalanceDisplay() {
+    balance = normalizeBalance(balance);
     document.getElementById('balance-amount').textContent = balance;
 }
 
@@ -622,7 +632,7 @@ function fetchUserBalance(username) {
     .then(response => response.json())
     .then(data => {
         if(data && data.length > 0) {
-            balance = data[0].balance; // Assuming balance is stored in the user's record
+            balance = normalizeBalance(data[0].balance); // Assuming balance is stored in the user's record
             updateBalanceDisplay();
         }
     })
