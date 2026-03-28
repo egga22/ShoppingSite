@@ -61,7 +61,8 @@ body, html {
     box-sizing: border-box; /* Include padding and border in the width */
 }
 
-#top-left-corner:hover, #top-right-corner:hover, #bottom-right-corner:hover, #cart-container:hover {
+#top-left-corner:hover, #top-right-corner:hover, #bottom-right-corner:hover, #cart-container:hover,
+#top-left-corner:focus-within, #top-right-corner:focus-within, #bottom-right-corner:focus-within, #cart-container:focus-within {
     box-shadow: var(--shadow-md);
 }
 /* Positioning for corner boxes */
@@ -120,7 +121,7 @@ body, html {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.product:hover {
+.product:hover, .product:focus-within {
     transform: translateY(-2px);
     box-shadow: var(--shadow-md);
 }
@@ -134,15 +135,18 @@ body, html {
 }
 
 /* Form styles for text input fields */
-input[type="text"], input[type="password"], input[type="search"] {
-    padding: 10px;
-    margin: 10px auto; /* Centered horizontally */
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-sm);
+input[type="text"], input[type="password"], input[type="search"], #sort-options select {
     width: 100%;
     max-width: var(--control-max-width);
-    display: block; /* Ensure inputs are block level */
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
     background-color: var(--bg-surface);
+}
+
+input[type="text"], input[type="password"], input[type="search"] {
+    margin: 10px auto; /* Centered horizontally */
+    display: block; /* Ensure inputs are block level */
 }
 
 /* Button styles */
@@ -175,12 +179,6 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="search"]:foc
 }
 
 #sort-options select {
-    width: 100%;
-    max-width: var(--control-max-width);
-    padding: 10px;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--border-color);
-    background-color: var(--bg-surface);
     color: var(--text-main);
 }
 
