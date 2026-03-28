@@ -1,4 +1,19 @@
 /* Reset and base styles */
+:root {
+    --bg-page: #f5f7fb;
+    --bg-surface: #ffffff;
+    --bg-muted: #eef2f7;
+    --text-main: #243447;
+    --text-muted: #5b6b7f;
+    --primary: #2b7cff;
+    --primary-hover: #1d63d4;
+    --border-color: #d8e0eb;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 8px 20px rgba(15, 23, 42, 0.12);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -6,22 +21,27 @@
 }
 
 body, html {
-    font-family: Arial, sans-serif;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
     width: 100%;
     height: 100%;
-    background-color: #f9f9f9; /* Light grey background */
+    background-color: var(--bg-page); /* Light grey background */
+    color: var(--text-main);
+    line-height: 1.4;
 }
 
 /* Layout styles for corner boxes */
 #top-left-corner, #top-right-corner, #bottom-right-corner {
-    background-color: #fff; /* White background for boxes */
+    background-color: var(--bg-surface); /* White background for boxes */
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Soft shadow for depth */
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm); /* Soft shadow for depth */
+    border: 1px solid var(--border-color);
     position: fixed; /* Ensure position is fixed for corners */
     z-index: 10; /* Ensure these are above the main content */
     display: flex;
     flex-direction: column;
+    gap: 8px;
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
 }
 
 #cart-container {
@@ -31,12 +51,17 @@ body, html {
     left: 10px; /* Align with the left edge of the content area */
     width: calc(100% - 20px); /* Assuming full width minus the left and right padding/margins */
     max-width: 300px; /* Or set a max-width if needed to match other elements' width */
-    background-color: #fff; /* White background for the cart */
+    background-color: var(--bg-surface); /* White background for the cart */
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
     z-index: 2; /* Above the main content, under top-left-corner elements */
     box-sizing: border-box; /* Include padding and border in the width */
+}
+
+#top-left-corner:hover, #top-right-corner:hover, #bottom-right-corner:hover, #cart-container:hover {
+    box-shadow: var(--shadow-md);
 }
 /* Positioning for corner boxes */
 #top-left-corner {
@@ -82,34 +107,79 @@ body, html {
     z-index: 1; /* Ensures the product list is positioned correctly */
 }
 
+.product {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.product .name {
+    font-weight: 600;
+}
+
+.product .price {
+    color: var(--text-muted);
+}
+
 /* Form styles for text input fields */
 input[type="text"], input[type="password"], input[type="search"] {
     padding: 10px;
     margin: 10px auto; /* Centered horizontally */
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
     width: 100%;
-    max-width: 200px; /* Keep text boxes small */
+    max-width: 220px; /* Keep text boxes small */
     display: block; /* Ensure inputs are block level */
+    background-color: var(--bg-surface);
 }
 
 /* Button styles */
 button {
     padding: 10px;
     margin: 10px auto; /* Center buttons */
-    background-color: #007bff;
-    color: #fff;
+    background-color: var(--primary);
+    color: var(--bg-surface);
     border: none;
-    border-radius: 5px;
+    border-radius: var(--radius-sm);
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
     width: auto; /* Adjust width based on content */
     max-width: 200px; /* Max width for consistency */
     display: block; /* Ensure buttons are block level */
+    box-shadow: var(--shadow-sm);
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+input[type="text"]:focus, input[type="password"]:focus, input[type="search"]:focus, select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(43, 124, 255, 0.2);
+}
+
+#sort-options select {
+    width: 100%;
+    max-width: 220px;
+    padding: 10px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-surface);
+    color: var(--text-main);
 }
 
 /* Styles for the balance presets grid */
@@ -144,9 +214,10 @@ button:hover {
     width: 100%; /* Ensures the wishlist takes the full width */
     margin-top: 20px; /* Adds space between the product list and wishlist */
     padding: 20px; /* Optional: Adds padding inside the wishlist container */
-    background-color: #f0f0f0; /* Optional: Sets a different background color */
+    background-color: var(--bg-muted); /* Optional: Sets a different background color */
     border-radius: 8px; /* Optional: Rounds the corners of the wishlist container */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Adds a subtle shadow */
+    box-shadow: var(--shadow-sm); /* Optional: Adds a subtle shadow */
+    border: 1px solid var(--border-color);
 }
 
 @media (max-width: 768px) {
@@ -161,4 +232,13 @@ button:hover {
     height: auto;
     display: block;
     margin: 0 auto 10px; /* Center image and add some space below */
+    border-radius: var(--radius-sm);
+}
+
+#cart-items > div, #wishlist-items > div {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 8px;
+    margin-bottom: 8px;
 }
