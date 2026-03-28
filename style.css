@@ -14,6 +14,8 @@
     --control-max-width: 200px;
     --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.08);
     --shadow-md: 0 8px 20px rgba(15, 23, 42, 0.12);
+    --left-panel-space: 340px;
+    --right-panel-space: 260px;
 }
 
 * {
@@ -89,7 +91,7 @@ body, html {
 
 /* Flexbox centering for the main content */
 .main-content {
-    margin: 150px 260px 100px 340px; /* Reserve space for fixed side panels to avoid overlap */
+    margin: 150px var(--right-panel-space) 100px var(--left-panel-space); /* Reserve space for fixed side panels to avoid overlap */
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -191,8 +193,19 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="search"]:foc
 
 /* Responsive adjustments */
 @media (max-width: 1024px) {
+    :root {
+        --left-panel-space: 320px;
+        --right-panel-space: 220px;
+    }
+
     .main-content {
-        margin: 120px 220px 80px 320px; /* Keep side clearance while reducing vertical spacing */
+        margin: 120px var(--right-panel-space) 80px var(--left-panel-space); /* Keep side clearance while reducing vertical spacing */
+    }
+}
+
+@media (max-width: 900px) {
+    .main-content {
+        margin: 110px 15% 70px;
     }
 }
 
