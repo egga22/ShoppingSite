@@ -10,6 +10,7 @@
     --border-color: #d8e0eb;
     --radius-sm: 8px;
     --radius-md: 12px;
+    --control-max-width: 220px;
     --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.08);
     --shadow-md: 0 8px 20px rgba(15, 23, 42, 0.12);
 }
@@ -139,7 +140,7 @@ input[type="text"], input[type="password"], input[type="search"] {
     border: 1px solid var(--border-color);
     border-radius: var(--radius-sm);
     width: 100%;
-    max-width: 220px; /* Keep text boxes small */
+    max-width: var(--control-max-width); /* Keep text boxes small */
     display: block; /* Ensure inputs are block level */
     background-color: var(--bg-surface);
 }
@@ -155,7 +156,7 @@ button {
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
     width: auto; /* Adjust width based on content */
-    max-width: 200px; /* Max width for consistency */
+    max-width: var(--control-max-width); /* Max width for consistency */
     display: block; /* Ensure buttons are block level */
     box-shadow: var(--shadow-sm);
 }
@@ -172,9 +173,12 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="search"]:foc
     box-shadow: 0 0 0 3px rgba(43, 124, 255, 0.2);
 }
 
-#sort-options select {
+#sort-options select, input[type="text"], input[type="password"], input[type="search"] {
     width: 100%;
-    max-width: 220px;
+    max-width: var(--control-max-width);
+}
+
+#sort-options select {
     padding: 10px;
     border-radius: var(--radius-sm);
     border: 1px solid var(--border-color);
