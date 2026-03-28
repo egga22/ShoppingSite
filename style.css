@@ -193,19 +193,8 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="search"]:foc
 
 /* Responsive adjustments */
 @media (max-width: 1024px) {
-    :root {
-        --left-panel-space: 320px;
-        --right-panel-space: 220px;
-    }
-
     .main-content {
-        margin: 120px var(--right-panel-space) 80px var(--left-panel-space); /* Keep side clearance while reducing vertical spacing */
-    }
-}
-
-@media (max-width: 900px) {
-    .main-content {
-        margin: 110px 15% 70px;
+        margin: 120px calc(var(--right-panel-space) - 40px) 80px calc(var(--left-panel-space) - 40px); /* Keep side clearance while reducing vertical spacing */
     }
 }
 
