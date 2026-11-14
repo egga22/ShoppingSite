@@ -1,28 +1,167 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" >
 <head>
-<meta charset="utf-8">
-<title>Security Assessment — Proof of Compromise</title>
-<style>
-  body { background: #0d1117; color: #e6edf3; font-family: system-ui, sans-serif; display: flex; justify-content: center; padding: 8vh 2rem; }
-  .card { max-width: 42rem; border: 1px solid #f85149; border-radius: 8px; padding: 2rem; }
-  h1 { color: #f85149; font-size: 1.3rem; }
-  code { background: #161b22; padding: 0.15rem 0.4rem; border-radius: 4px; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Shopping Site</title>
+    <link rel="stylesheet" href="style.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3639857658304018"
+     crossorigin="anonymous"></script>
 </head>
 <body>
-<div class="card">
-  <h1>&#9888; SECURITY ASSESSMENT &mdash; PROOF OF COMPROMISE</h1>
-  <p>This page was modified through a push to the source repository using a
-  compromised repository credential. No visitor data was collected and no
-  malicious code was executed.</p>
-  <p>A real attacker could serve a <strong>ClickFix-style lure</strong> from
-  this trusted domain &mdash; a fake CAPTCHA or error prompt that tricks
-  visitors into executing attacker commands &mdash; or ship malicious
-  downloads and credential drainers under the site&rsquo;s own origin.</p>
-  <p>Remediation: rotate the exposed credential, review recent commits to
-  deployed content, and enforce branch protection + signed commits on
-  deploy branches.</p>
-</div>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3639857658304018"
+     crossorigin="anonymous"></script>
+<!-- Top of site -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3639857658304018"
+     data-ad-slot="1718678600"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+    <!-- Top Left Corner -->
+    
+    <div id="top-left-corner">
+        <script src="https://apis.google.com/js/api:client.js"></script>
+        <div id="gSignInWrapper">
+            <div id="customBtn" class="customGPlusSignIn">
+                <span class="icon"></span>
+                <span class="buttonText">Google</span>
+            </div>
+        </div>
+
+        <div id="login">
+            
+            <h3>Login</h3>
+            <input type="text" id="login-username" placeholder="Username">
+            <input type="password" id="login-password" placeholder="Password">
+            <button onclick="login()">Login</button>
+        </div>
+        
+        <div id="g_id_onload"
+             data-client_id="20859272744-g2h36a1eb9mmsf46d474t7afhinfcet4.apps.googleusercontent.com"
+             data-auto_prompt="false">
+        </div>
+        <div class="g_id_signin"
+             data-type="standard"
+             data-size="large"
+             data-theme="outline"
+             data-text="sign_in_with"
+             data-shape="rectangular"
+             data-logo_alignment="left">
+        </div>
+
+        <div id="register">
+            
+            <h3>Register</h3>
+            <input type="text" id="register-username" placeholder="Username">
+            <input type="password" id="register-password" placeholder="Password">
+            <button onclick="attemptRegister()">Register</button>
+        </div>
+
+        <!-- User Login -->
+        
+
+        <div id="redeem-gift-card">
+            <input type="text" id="gift-card-code" placeholder="Gift Card Code">
+<button onclick="redeemGiftCard(document.getElementById('gift-card-code').value)">Redeem</button>
+
+
+        </div>
+
+        <!-- Logout Button -->
+        <div id="logout-section" style="display:none;">
+            <button onclick="logout()">Logout</button>
+        </div>
+    </div>
+  <div id="cart-container">
+        <div id="cart">
+            <h2>Cart</h2>
+            <div id="cart-items"></div>
+            <button onclick="checkout()">Checkout</button>
+            <div>
+                <input type="text" id="discount-code" placeholder="Discount Code">
+                <button onclick="applyDiscount()">Apply Discount</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Right Corner -->
+    <div id="top-right-corner">
+        <div id="search-box">
+            <input type="text" id="search-input" placeholder="Search products..." oninput="searchProducts()">
+        </div>
+
+        <div id="sort-options">
+            <select id="sortSelect" onchange="sortProducts(this.value)">
+                <option value="priceLowToHigh">Price: Low to High</option>
+                <option value="priceHighToLow">Price: High to Low</option>
+                <option value="alphabeticalAZ">Alphabetical: A-Z</option>
+                <option value="alphabeticalZA">Alphabetical: Z-A</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <div id="product-list">
+            <!-- Products will be rendered here by JavaScript -->
+        </div>
+
+        <div id="wishlist">
+            <h3>Your Wishlist</h3>
+            <div id="wishlist-items"></div>
+        </div>
+    </div>
+
+    <!-- Bottom Right Corner -->
+    <div id="bottom-right-corner">
+        <div id="balance">
+            <h2>Balance: $<span id="balance-amount">0</span></h2>
+            <button onclick="addBalance()">Add to Balance</button>
+            <div id="balance-presets">
+                <button onclick="updateBalance(5)">Add $5</button>
+                <button onclick="updateBalance(10)">Add $10</button>
+                <button onclick="updateBalance(15)">Add $15</button>
+                <button onclick="updateBalance(20)">Add $20</button>
+                <button onclick="updateBalance(70)">Add $70</button>
+                <button onclick="updateBalance(100)">Add $100</button>
+            </div>
+        </div>
+
+        <div id="purchase-history">
+            <h2>Purchase History</h2>
+            <div id="history-items"></div>
+            <button onclick="clearHistory()" class="clear-button">Clear History</button>
+        </div>
+    </div>
+
+    <!-- Bottom Right Corner (if the cart is to be placed at the bottom, otherwise move this inside top-right-corner) -->
+    
+  <script src="//code.tidio.co/5z0n53bzc7ghm2lkd7pefyfwuprka1bt.js" async></script>
+  <!-- Default Statcounter code for Shopping site
+http://egga22.github.io/ShoppingSite -->
+<script type="text/javascript">
+    var sc_project=12997753; 
+    var sc_invisible=0; 
+    var sc_security="c3e8d120"; 
+    var sc_text=2; 
+    var scJsHost = "https://";
+    document.write("<sc"+"ript type='text/javascript' src='" +
+    scJsHost+
+    "statcounter.com/counter/counter.js'></"+"script>");
+    </script>
+    <noscript><div class="statcounter"><a title="Web Analytics
+    Made Easy - Statcounter" href="https://statcounter.com/"
+    target="_blank"><img class="statcounter"
+    src="https://c.statcounter.com/12997753/0/c3e8d120/0/"
+    alt="Web Analytics Made Easy - Statcounter"
+    referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
+    <!-- End of Statcounter Code -->
+    
+    <script src="./script.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </body>
 </html>
